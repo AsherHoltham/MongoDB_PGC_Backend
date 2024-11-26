@@ -7,9 +7,9 @@ body {
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    background-color: #f4f4f9;
+    background-color: #a6e8dc;
 }
-
+ 
 .content {
     text-align: center;
     padding: 20px;
@@ -19,6 +19,15 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 80%;
     max-width: 600px;
+}
+
+#page-head {
+    color: #e8a6d3;
+    font-size: 32px;       /* Increase font size */
+    text-align: center;    /* Center the text */
+    margin-top: 20px;      /* Add spacing above the heading */
+    font-family: Arial, sans-serif; /* Change font */
+    z-index: 1000;
 }
 
 table {
