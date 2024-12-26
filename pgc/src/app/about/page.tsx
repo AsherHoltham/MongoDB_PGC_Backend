@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 export default function About() {
     const router = useRouter();
     return (
-    <div>
+    <div className = "text-center">
         <h1>Project GroupChat</h1>
         <button
             onClick={() => router.push("/")}
