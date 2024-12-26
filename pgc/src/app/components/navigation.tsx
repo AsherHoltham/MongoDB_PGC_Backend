@@ -19,10 +19,16 @@ export const Navigation = () => {
                 About
             </Link>
             <Link 
-            href = "/users/X" 
-            className = {pathname.startsWith("/users/X") ? "font-bold mr-4" : "mr-4 text-blue-500"}
+            href = "/login" 
+            className = {pathname === "/login" ? "font-bold mr-4" : "mr-4 text-blue-500"}
             >
-                User X
+                Login
+            </Link>
+            <Link 
+            href = "/register" 
+            className = {pathname === "/register" ? "font-bold mr-4" : "mr-4 text-blue-500"}
+            >
+                Register
             </Link>
         </nav>
     );
