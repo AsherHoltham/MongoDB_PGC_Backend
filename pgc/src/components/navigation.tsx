@@ -25,10 +25,10 @@ export const Navigation = () => {
                 Login
             </Link>
             <Link 
-            href = "/register" 
-            className = {pathname === "/register" ? "font-bold mr-4" : "mr-4 text-blue-500"}
+            href = "/signup" 
+            className = {pathname === "/signup" ? "font-bold mr-4" : "mr-4 text-blue-500"}
             >
-                Register
+                Sign Up
             </Link>
         </nav>
     );

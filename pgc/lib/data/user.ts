@@ -1,6 +1,6 @@
 import * as CryptoJS from 'crypto-js';
 
-class User {
+export class User {
     private _uname: string;
     private _password: string;
     private _email: string;

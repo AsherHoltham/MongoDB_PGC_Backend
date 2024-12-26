@@ -1,8 +1,9 @@
-import { RegisterForm } from "../../components/user_init_form";
+import { RegisterForm } from "../../../components/register";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 export default function Register() {
+
+    
     return (
     <div>
         <main>

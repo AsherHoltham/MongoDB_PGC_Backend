@@ -1,6 +1,5 @@
-import { LoginForm } from "../../components/login_form";
+import { LoginForm } from "../../../components/login_form";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 export default function Login() {
     return (
@@ -14,7 +13,7 @@ export default function Login() {
             </div>
             <div style={{ textAlign: "center" }}>
                 <Link
-                    href = "/register" 
+                    href = "/signup" 
                     className = {"mr-4 text-blue-500"}
                     >
                         Create Account
