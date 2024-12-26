@@ -25,14 +25,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <header className="bg-slate-900 text-white p-4 text-center">
+       <body className="flex flex-col min-h-screen">
+
+        <header className="bg-[#18181b] text-white p-4 text-center">
           <Navigation/>
         </header>
-        {children}
-        <footer className="bg-slate-900 text-white p-4 text-center">
+
+        <main className="flex-grow">
+          {children}
+        </main>
+        
+        <footer className="bg-[#18181b] text-white p-4 text-center">
             PGC
         </footer>
       </body>
