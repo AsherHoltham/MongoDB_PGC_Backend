@@ -1,3 +1,12 @@
+import { LoginForm } from "../../components/login_form";
+
 export default function Login() {
-    return <h1>logic for login a user from DB</h1>;
+    return (
+    <div>
+        <main>
+            <h1>Login Page</h1>
+            <LoginForm />
+        </main>
+    </div>
+    );
 }
