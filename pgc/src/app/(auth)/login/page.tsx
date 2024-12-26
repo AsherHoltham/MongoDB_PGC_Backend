@@ -13,7 +13,7 @@ export default function Login() {
             </div>
             <div style={{ textAlign: "center" }}>
                 <Link
-                    href = "/signup" 
+                    href = "/register" 
                     className = {"mr-4 text-blue-500"}
                     >
                         Create Account

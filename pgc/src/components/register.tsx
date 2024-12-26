@@ -1,4 +1,7 @@
 "use client"
+
+import React from "react";
+
 interface RegisterFormProps {
     uname: string;
     setUnameAction: React.Dispatch<React.SetStateAction<string>>;
@@ -12,10 +15,35 @@ export function RegisterForm (
     { uname, setUnameAction, email, setEmailAction,
     password, setPasswordAction }: RegisterFormProps ) 
     {
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+
+        if(!uname.trim){
+            alert("Username is required")
+            return;
+        }
+
+        if(!email.trim){
+            alert("Email is required")
+            return;
+        }
+
+        if(!password.trim){
+            alert("Password is required")
+            return;
+        }
+
+        alert("Check your email to verify your account!");
+        console.log(uname);
+        console.log(email);
+        console.log(password);
+    }
+
     console.log("USER INIT Form Component")
     return (
         <div>
-            <form method="GET">
+            <form onSubmit={ handleSubmit } method="GET">
                 <div>
                     <label>Create a Username:</label>
                     <br />
