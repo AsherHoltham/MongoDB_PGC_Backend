@@ -4,11 +4,13 @@ export const LoginForm = () => {
     return (
         <div>
             <form>
-                <label>Username: </label>
+                <label>Enter your Username:</label>
+                <br />
                 <input type="text" id="username" name="username" required  placeholder="Enter username" ></input>
             </form>
             <form>
-                <label>Password: </label>
+                <label>Enter your Password:</label>
+                <br />
                 <input type="text" id="password" name="password" required  placeholder="Enter password" ></input>
             </form>
         </div>
