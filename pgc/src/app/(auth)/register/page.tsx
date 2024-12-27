@@ -2,7 +2,7 @@
 import { RegisterForm } from "../../../components/Register";
 import Link from "next/link";
 import React, { useState } from "react";
-import { User } from "../../../../lib/data/user";
+import { User } from "../../../../lib/user";
 
 export default function RegisterPage() {
     const [uname, setUname] = useState("");

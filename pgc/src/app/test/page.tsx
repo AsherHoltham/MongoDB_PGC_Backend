@@ -1,4 +1,4 @@
-import { User } from "../../../lib/data/user";
+import { User } from "../../../lib/user";
 
 export default function TPage(){
     const usertest = new User("john_doe", "mysecretpassword", "john@example.com", ["trip1", "trip2"]);
