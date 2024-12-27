@@ -12,10 +12,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     res.setHeader('Allow', ['POST']);
     return res.status(405).json({ message: `Method ${req.method} Not Allowed` });
   }
+  console.log(req.body);
 
-  const { uname, email, password, trips } = req.body;
+  const { _uname: uname, _password: password, _email: email, _trips: trips } = req.body;
   const newUser = new User(uname, password, email, trips);
-  console.log("checkpoint_ADDEDTODB");
+
   try {
     const dbInstance = DataBase.getInstance("PGC");
     await dbInstance.initDb<User>(['_uname', '_email'], "Users");

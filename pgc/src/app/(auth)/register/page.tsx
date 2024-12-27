@@ -24,10 +24,9 @@ export default function RegisterPage() {
                 'Content-Type': 'application/json', },
               body: userJson, // Convert the user object to JSON
             });
-            console.log("passed");
       
             const data = await response.json(); // Parse the JSON response
-      
+            
             if (response.ok) {
               setMessage(data.message); // Success message from API
               // Optionally, redirect the user to another page (e.g., login page)
