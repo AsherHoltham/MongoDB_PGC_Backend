@@ -1,3 +1,4 @@
+/** */
 import type { Metadata } from "next";
 import "../../styles/globals.css";
 import { Navigation } from "../components/Navigation";
@@ -15,18 +16,9 @@ export default function RootLayout({
   return (
     <html lang="en">
        <body className="flex flex-col min-h-screen">
-
-        <header className="bg-[#18181b] text-white p-4 text-center">
-          <Navigation/>
-        </header>
-
         <main className="flex-grow">
           {children}
         </main>
-
-        <footer className="bg-[#18181b] text-white p-4 text-center">
-            PGC
-        </footer>
       </body>
     </html>
   );
