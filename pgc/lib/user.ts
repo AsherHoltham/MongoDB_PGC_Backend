@@ -22,16 +22,14 @@ export class User {
         return this._email;
     }
 
-    public toDB(): string {
-        const obj = {   "_uname": this._uname,
-                        "_password": this._password, 
-                        "_email": this._email,
-                        "_trips": this._trips
-                    };
-
-        const element = JSON.stringify(obj);
-        return element;
-    }
+    public toDB(): Record<string, any> {
+        return {
+          "_uname": this._uname,
+          "_password": this._password,
+          "_email": this._email,
+          "_trips": this._trips
+        };
+      }
 
     public retIndexes(): string[] {
         return ["_uname", "_email"];

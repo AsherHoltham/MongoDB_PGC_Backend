@@ -14,7 +14,7 @@ export default function RegisterPage() {
         event.preventDefault();
         const trips: string[] = []
         const newUser = new User(uname, password, email, trips);
-        const userJson = newUser.toDB();
+        const userJson = JSON.stringify(newUser.toDB());
 
         console.log("New user ready to be saved:", userJson);
 
@@ -24,6 +24,7 @@ export default function RegisterPage() {
                 'Content-Type': 'application/json', },
               body: userJson, // Convert the user object to JSON
             });
+            console.log("passed");
       
             const data = await response.json(); // Parse the JSON response
       

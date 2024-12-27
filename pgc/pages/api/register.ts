@@ -15,7 +15,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
   const { uname, email, password, trips } = req.body;
   const newUser = new User(uname, password, email, trips);
-
+  console.log("checkpoint_ADDEDTODB");
   try {
     const dbInstance = DataBase.getInstance("PGC");
     await dbInstance.initDb<User>(['_uname', '_email'], "Users");
@@ -29,14 +29,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     if (emailExists) {
       return res.status(409).json({ message: 'Email already registered.' });
     }
-
+    console.log("checkpoint_ADDEDTODB");
     // INSERT
-    const userDBObj = newUser.toDB();
-    await dbInstance.addDocument<User>('Users', userDBObj);
+    const user = new User(uname, password, email, trips);
+    await dbInstance.addDocument<User>("Users", user.toDB());
+    console.log("checkpoint_ADDEDTODB");
 
     return res.status(201).json({ message: 'User registered successfully.' });
   } catch (error: any) {
     console.error('Registration Error:', error);
+    console.log(error);
     return res.status(500).json({ message: 'Internal Server Error.' });
   }
 }

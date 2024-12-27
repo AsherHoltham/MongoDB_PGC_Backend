@@ -62,7 +62,7 @@ export function RegisterForm (
                     <br />
                     <input type="email" id="email" name="email" 
                     value= { email } onChange= { (e) => setEmailAction(e.target.value) } 
-                    required  placeholder="Enter Email" ></input>
+                    required  placeholder="Enter Email" autoComplete="email"></input>
                 </div>
                 <div>
                     <label>Create Password:</label>

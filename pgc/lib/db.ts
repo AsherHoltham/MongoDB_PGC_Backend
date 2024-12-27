@@ -36,12 +36,18 @@ export class DataBase {
     indexes: string[], 
     collectionName: string
   ): Promise<Db | null> {
+    console.log("initDB");
     if (!this.db) {
       try {
-        this.connectDb();
-        for (let field of indexes) {
-          await this.createUniqueIndex<T>(field, collectionName);
-        }
+        await this.connectDb(); // Ensure connection is awaited
+        console.log(`Database "${this.dbName}" connected successfully.`);
+  
+        // Create indexes concurrently
+        await Promise.all(
+          indexes.map(field => this.createUniqueIndex<T>(field, collectionName))
+        );
+  
+        console.log(`Indexes created successfully for collection "${collectionName}".`);
       } catch (error) {
         console.error('Error initializing database:', error);
         throw error; // Rethrow to notify calling code
