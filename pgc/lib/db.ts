@@ -1,4 +1,4 @@
-import { Db, MongoClient, Document, Filter, InsertOneResult, IndexSpecification } from 'mongodb';
+import { Db, MongoClient, Collection, Document, Filter, InsertOneResult } from 'mongodb';
 import clientPromise from './mongodb'; // Ensure this exports a connected MongoClient
 
 export class DataBase {
@@ -28,7 +28,7 @@ export class DataBase {
    * connectDb - Initialize the database connection.
    * @returns A promise that resolves when the connection is established.
    */
-  public async connectDb(): Promise<void> {
+  private async connectDb(): Promise<void> {
     if (this.client && this.db) {
       console.log(`Already connected to ${this.dbName}`);
       return;
@@ -47,7 +47,7 @@ export class DataBase {
    * disconnectDb - Close the database connection.
    * @returns A promise that resolves when the connection is closed.
    */
-  public async disconnectDb(): Promise<void> {
+  private async disconnectDb(): Promise<void> {
     if (!this.client) {
       console.log('No active MongoDB connection to close.');
       return;
@@ -68,24 +68,17 @@ export class DataBase {
    * @param indexes - An array of field names to create unique indexes on.
    * @param collectionName - The name of the collection to apply the indexes to.
    */
-  public async initCollection<T extends Document>(indexes: string[], collectionName: string): Promise<Db> {
-    await this.connectDb();
-
-    if(this.db.listCollections().includes(this.getCollection<T>(collectionName))){
-      try {
-        const client = await clientPromise;
-        this.db = client.db(this.dbName);
-        console.log(`Connected to database: ${this.dbName}`);
-
-        for (let i = 0; i < indexes.length; i++) {
-          await this.createUniqueIndex<T>(indexes[i], collectionName);
-        }
-      } catch (error) {
-        console.error('Error initializing Collection:', error);
-        throw error;
+  public async initCollection<T extends Document>(indexes: string[], collectionName: string): Promise<Db | null> {
+    if(!this.db){
+      await this.connectDb();
+    }
+    try {
+      for (let i = 0; i < indexes.length; i++) {
+        await this.createUniqueIndex<T>(indexes[i], collectionName);
       }
-    } else {
-      console.log(`Collection "${collectionName}" is already initialized.`);
+    } catch (error) {
+      console.error('Error initializing Collection:', error);
+      throw error;
     }
     return this.db;
   }
@@ -141,6 +134,9 @@ export class DataBase {
    * @returns A promise that resolves to true if the document exists, false otherwise.
    */
   public async documentExists<T extends Document>(field: string, value: any, collectionName: string): Promise<boolean> {
+    if(!this.db){
+      await this.connectDb();
+    }
     try {
       const collection = this.getCollection<T>(collectionName);
       const query = this.buildQuery(field, value );
@@ -152,12 +148,34 @@ export class DataBase {
     }
   }
 
-  public async addDocument<T extends Document>(indexes: string[], document: T){
+  /**
+   * addDocument - Inserts a document into the specified collection.
+   * @param collectionName - The name of the collection to insert the document into.
+   * @param document - The document to be inserted.
+   * @returns A promise that resolves to the result of the insertion.
+   */
+  public async addDocument<T extends Document>( collectionName: string, document: any 
+    ): Promise<InsertOneResult<T>> 
+    {
+    // Ensure the database is connected
+    if (!this.db) {
+      await this.connectDb();
+    }
 
+    try {
+      const collection = this.getCollection<T>(collectionName);
+      const result: InsertOneResult<T> = await collection.insertOne(document);
+      console.log(
+        `Document inserted into "${collectionName}" with _id: ${result.insertedId}`
+      );
+      return result;
+    } catch (error) {
+      console.error(
+        `Error inserting document into "${collectionName}":`,
+        error
+      );
+      throw error; // Re-throw the error to notify the caller
+    }
   }
-
-
-
 };
-
 export default DataBase;
