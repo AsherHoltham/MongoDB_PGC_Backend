@@ -1,49 +1,113 @@
-import { Db, Collection, ObjectId, InsertOneResult } from 'mongodb';
-import clientPromise from './mongodb';
-import { User } from './user'
+import { Db, MongoClient, Document, Filter, InsertOneResult, IndexSpecification } from 'mongodb';
+import clientPromise from './mongodb'; // Ensure this exports a connected MongoClient
 
 export class DataBase {
-  private db!: Db; 
-  private static instance: DataBase
+  private static instance: DataBase;
+  private client: MongoClient | null = null;
+  private db: Db | null = null;
+
+  /**
+   * Private constructor to prevent direct instantiation.
+   * @param dbName - The name of the MongoDB database to connect to.
+   */
   private constructor(private dbName: string) {}
 
   /**
-   * getInstance - Static method to get the single instance of the Database class.
+   * getInstance - Static method to get the single instance of the DataBase class.
    * @param dbName - The name of the MongoDB database to connect to.
-   * @returns A single instance of the Database class.
+   * @returns A single instance of the DataBase class.
    */
   public static getInstance(dbName: string): DataBase {
     if (!DataBase.instance) {
-    // If no instance exists, create one and assign it to the static property
       DataBase.instance = new DataBase(dbName);
     }
-    // Return the existing instance
     return DataBase.instance;
   }
 
-  // Initialize the database connection
-  async init() {
-    if (!this.db) {
-      const client = await clientPromise;
-      this.db = client.db(this.dbName);
-      console.log(`Connected to database: ${this.dbName}`);
+  /**
+   * connectDb - Initialize the database connection.
+   * @returns A promise that resolves when the connection is established.
+   */
+  public async connectDb(): Promise<void> {
+    if (this.client && this.db) {
+      console.log(`Already connected to ${this.dbName}`);
+      return;
+    }
+    try {
+      this.client = await clientPromise;
+      this.db = this.client.db(this.dbName);
+      console.log(`Connected to ${this.dbName}`);
+    } catch (error) {
+      console.error(`Failed to connect to ${this.dbName}`, error);
+      throw error; // Re-throw the error after logging
+    }
+  }
 
-      await this.createUniqueIndex('_uname');
+  /**
+   * disconnectDb - Close the database connection.
+   * @returns A promise that resolves when the connection is closed.
+   */
+  public async disconnectDb(): Promise<void> {
+    if (!this.client) {
+      console.log('No active MongoDB connection to close.');
+      return;
+    }
+    try {
+      await this.client.close();
+      console.log(`Disconnected from ${this.dbName}`);
+      this.client = null;
+      this.db = null;
+    } catch (error) {
+      console.error(`Failed to disconnect from database: ${this.dbName}`, error);
+      throw error; // Re-throw the error after logging
+    }
+  }
+
+  /**
+   * initDb - Initialize the database connection and create unique indexes.
+   * @param indexes - An array of field names to create unique indexes on.
+   * @param collectionName - The name of the collection to apply the indexes to.
+   */
+  public async initCollection<T extends Document>(indexes: string[], collectionName: string): Promise<Db> {
+    await this.connectDb();
+
+    if(this.db.listCollections().includes(this.getCollection<T>(collectionName))){
+      try {
+        const client = await clientPromise;
+        this.db = client.db(this.dbName);
+        console.log(`Connected to database: ${this.dbName}`);
+
+        for (let i = 0; i < indexes.length; i++) {
+          await this.createUniqueIndex<T>(indexes[i], collectionName);
+        }
+      } catch (error) {
+        console.error('Error initializing Collection:', error);
+        throw error;
+      }
+    } else {
+      console.log(`Collection "${collectionName}" is already initialized.`);
     }
     return this.db;
   }
+
   /**
    * createUniqueIndex - Creates a unique index on the specified field.
    * @param fieldName - The field on which to create the unique index.
+   * @param collectionName - The name of the collection to apply the index to.
    */
-  private async createUniqueIndex(fieldName: string): Promise<void> {
+  private async createUniqueIndex<T extends Document>(fieldName: string, collectionName: string): Promise<void> {
     try {
-      const collection = this.getCollection<User>('users');
+      const collection = this.getCollection<T>(collectionName);
       await collection.createIndex({ [fieldName]: 1 }, { unique: true });
-      console.log(`Unique index created on field: ${fieldName}`);
-    } catch (error) {
-      console.error(`Error creating unique index on ${fieldName}:`, error);
-      // Optionally, handle specific errors or rethrow
+      console.log(`Unique index created on field: "${fieldName}" in collection "${collectionName}".`);
+    } catch (error: any) {
+      // Check if the error is about the index already existing
+      if (error.code === 85 || error.codeName === 'IndexOptionsConflict') {
+        console.warn(`Index on field "${fieldName}" already exists in collection "${collectionName}".`);
+      } else {
+        console.error(`Error creating unique index on "${fieldName}" in collection "${collectionName}":`, error);
+        throw error; // Rethrow unexpected errors
+      }
     }
   }
 
@@ -52,22 +116,47 @@ export class DataBase {
    * @param collectionName - The name of the collection to retrieve.
    * @returns The MongoDB Collection instance.
    */
-  private getCollection<T>(collectionName: string): Collection<T> {
+  private getCollection<T extends Document>(collectionName: string): Collection<T> {
     if (!this.db) {
-      throw new Error('Database not initialized. Call init() first.');
+      throw new Error('Database not initialized. Call initDb() first.');
     }
-      return this.db.collection<T>(collectionName);
+    return this.db.collection<T>(collectionName);
+  }
+
+  /**
+   * buildQuery - Constructs a MongoDB filter based on the field, value, and options.
+   * @param field - The field name to check.
+   * @param value - The value to search for in the specified field.
+   * @returns A MongoDB filter object.
+   */
+  private buildQuery(field: string, value: any): Filter<any> {
+    return { [field]: value };
+  }
+
+  /**
+   * documentExists - Checks if a document with the specified field value exists in the collection.
+   * @param field - The field name to check.
+   * @param value - The value to search for in the specified field.
+   * @param collectionName - The name of the collection to search in.
+   * @returns A promise that resolves to true if the document exists, false otherwise.
+   */
+  public async documentExists<T extends Document>(field: string, value: any, collectionName: string): Promise<boolean> {
+    try {
+      const collection = this.getCollection<T>(collectionName);
+      const query = this.buildQuery(field, value );
+      const document = await collection.findOne(query);
+      return document !== null;
+    } catch (error) {
+      console.error(`Error checking existence of document with ${field} = "${value}" in collection "${collectionName}":`, error);
+      throw error; // Rethrow to notify calling code
+    }
+  }
+
+  public async addDocument<T extends Document>(indexes: string[], document: T){
+
   }
 
 
-
-
-  checkIfUnameExists(uname: string) {
-
-  }
-  addUser(newUser: User) {
-
-  }
 
 };
 

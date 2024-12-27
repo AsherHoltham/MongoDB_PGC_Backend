@@ -1,8 +1,8 @@
 import React from 'react';
-import { getBaseUrl } from '@/utils';
-import { Body, Button, Container, Head, Hr, Html, Img, Preview, Section, Text } from '@react-email/components';
+//import { getBaseUrl } from '@/utils';
+//import { Body, Button, Container, Head, Hr, Html, Img, Preview, Section, Text } from '@react-email/components';
 
-const baseUrl = getBaseUrl();
+//const baseUrl = getBaseUrl();
 
 interface EmailVerificationProps{
     uname: string;

@@ -6,7 +6,7 @@ export class User {
     private _email: string;
     private _trips: string[];
 
-    constructor(uname: string, password: string, email: string, trips: string[]) {
+    constructor(uname: string, password: string, email: string, trips: string[] = []) {
         this._uname = uname;
         this._password = CryptoJS.SHA256(password).toString();
         console.log(this._password);
@@ -15,9 +15,10 @@ export class User {
     }
 
     public toDB(): string {
-        const obj = {   "password": this._password, 
-                        "email": this._email,
-                        "trips": this._trips
+        const obj = {   "_uname": this._uname,
+                        "_password": this._password, 
+                        "_email": this._email,
+                        "_trips": this._trips
                     };
 
         const element = JSON.stringify(obj);
@@ -27,4 +28,6 @@ export class User {
     public retUname(): string {
         return this._uname;
     }
+
+    
 };
