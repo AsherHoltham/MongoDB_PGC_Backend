@@ -1,5 +1,3 @@
-// Set Up
-
 import { MongoClient, MongoClientOptions } from 'mongodb';
 import { config } from '../../config';
 
