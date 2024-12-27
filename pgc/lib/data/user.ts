@@ -24,7 +24,7 @@ export class User {
         return element;
     }
 
-    public uname(): string {
+    public retUname(): string {
         return this._uname;
     }
 };

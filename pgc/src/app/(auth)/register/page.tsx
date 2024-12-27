@@ -9,6 +9,16 @@ export default function RegisterPage() {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
 
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        const newUser = new User(uname, password, email, []);
+        const userJson = newUser.toDB();
+        const key = newUser.retUname();
+
+        console.log("New user ready to be saved:", userJson, key);
+    }
+
     return (
     <div>
         <main>
@@ -22,7 +32,8 @@ export default function RegisterPage() {
                 email={email}
                 setEmailAction={setEmail}
                 password={password}
-                setPasswordAction={setPassword} 
+                setPasswordAction={setPassword}
+                onSubmitAction={handleSubmit}
                 />
             </div>
             <div style={{ textAlign: "center" }}>

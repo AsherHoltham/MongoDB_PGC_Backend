@@ -9,14 +9,15 @@ interface RegisterFormProps {
     setEmailAction: React.Dispatch<React.SetStateAction<string>>;
     password: string;
     setPasswordAction: React.Dispatch<React.SetStateAction<string>>;
+    onSubmitAction: (event: React.FormEvent<HTMLFormElement>) => void;
 }
 
 export function RegisterForm (
     { uname, setUnameAction, email, setEmailAction,
-    password, setPasswordAction }: RegisterFormProps ) 
+    password, setPasswordAction, onSubmitAction }: RegisterFormProps ) 
     {
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if(!uname.trim()){
@@ -38,9 +39,11 @@ export function RegisterForm (
 
         //alert("Check your email to verify your account!");
 
-        console.log(uname);
-        console.log(email);
-        console.log(password);
+        alert("All good!");
+
+        console.log("child sees:", uname, email, password);
+
+        onSubmitAction(e);
     }
 
     console.log("USER INIT Form Component")
