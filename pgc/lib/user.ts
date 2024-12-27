@@ -14,6 +14,14 @@ export class User {
         this._trips = trips;
     }
 
+    public getUname(): string {
+        return this._uname;
+    }
+
+    public getEmail(): string {
+        return this._email;
+    }
+
     public toDB(): string {
         const obj = {   "_uname": this._uname,
                         "_password": this._password, 
@@ -25,8 +33,8 @@ export class User {
         return element;
     }
 
-    public retUname(): string {
-        return this._uname;
+    public retIndexes(): string[] {
+        return ["_uname", "_email"];
     }
 
     

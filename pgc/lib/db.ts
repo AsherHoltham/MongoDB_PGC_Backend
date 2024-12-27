@@ -6,11 +6,13 @@ export class DataBase {
   private client: MongoClient | null = null;
   private db: Db | null = null;
 
+  
   /**
    * Private constructor to prevent direct instantiation.
    * @param dbName - The name of the MongoDB database to connect to.
    */
   private constructor(private dbName: string) {}
+
 
   /**
    * getInstance - Static method to get the single instance of the DataBase class.
@@ -23,6 +25,33 @@ export class DataBase {
     }
     return DataBase.instance;
   }
+
+
+  /**
+     * initDb - Initialize the database connection and create unique indexes.
+     * @param indexes - An array of field names to create unique indexes on.
+     * @param collectionName - The name of the collection to apply the indexes to.
+     */
+  public async initDb<T extends Document>(
+    indexes: string[], 
+    collectionName: string
+  ): Promise<Db | null> {
+    if (!this.db) {
+      try {
+        this.connectDb();
+        for (let field of indexes) {
+          await this.createUniqueIndex<T>(field, collectionName);
+        }
+      } catch (error) {
+        console.error('Error initializing database:', error);
+        throw error; // Rethrow to notify calling code
+      }
+    } else {
+      console.log(`Database "${this.dbName}" is already initialized.`);
+    }
+    return this.db;
+  }
+
 
   /**
    * connectDb - Initialize the database connection.
@@ -42,6 +71,7 @@ export class DataBase {
       throw error; // Re-throw the error after logging
     }
   }
+
 
   /**
    * disconnectDb - Close the database connection.
@@ -63,8 +93,9 @@ export class DataBase {
     }
   }
 
+
   /**
-   * initDb - Initialize the database connection and create unique indexes.
+   * initCollection - Initialize the database connection and create unique indexes.
    * @param indexes - An array of field names to create unique indexes on.
    * @param collectionName - The name of the collection to apply the indexes to.
    */
@@ -82,6 +113,7 @@ export class DataBase {
     }
     return this.db;
   }
+
 
   /**
    * createUniqueIndex - Creates a unique index on the specified field.
@@ -104,6 +136,7 @@ export class DataBase {
     }
   }
 
+
   /**
    * getCollection - Retrieves the specified collection with type safety.
    * @param collectionName - The name of the collection to retrieve.
@@ -116,6 +149,7 @@ export class DataBase {
     return this.db.collection<T>(collectionName);
   }
 
+
   /**
    * buildQuery - Constructs a MongoDB filter based on the field, value, and options.
    * @param field - The field name to check.
@@ -125,6 +159,7 @@ export class DataBase {
   private buildQuery(field: string, value: any): Filter<any> {
     return { [field]: value };
   }
+
 
   /**
    * documentExists - Checks if a document with the specified field value exists in the collection.
@@ -147,6 +182,7 @@ export class DataBase {
       throw error; // Rethrow to notify calling code
     }
   }
+
 
   /**
    * addDocument - Inserts a document into the specified collection.
@@ -178,4 +214,5 @@ export class DataBase {
     }
   }
 };
+
 export default DataBase;
