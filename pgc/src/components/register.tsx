@@ -19,22 +19,25 @@ export function RegisterForm (
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        if(!uname.trim){
+        if(!uname.trim()){
             alert("Username is required")
             return;
         }
-
-        if(!email.trim){
+        if(!email.trim()){
             alert("Email is required")
             return;
         }
-
-        if(!password.trim){
+        if(!password.trim()){
             alert("Password is required")
             return;
         }
+        if(password.length < 10 || password.length > 25){
+            alert("Password must be between 10 and 25 characters")
+            return;
+        }
 
-        alert("Check your email to verify your account!");
+        //alert("Check your email to verify your account!");
+
         console.log(uname);
         console.log(email);
         console.log(password);
@@ -69,7 +72,6 @@ export function RegisterForm (
                 type="submit" style={{ marginTop: "2rem" }}>
                 Submit</button>
             </form>
-
         </div>
     );
 }
