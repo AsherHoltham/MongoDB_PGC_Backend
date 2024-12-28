@@ -1,4 +1,4 @@
-import { Db, MongoClient, Collection, Document, Filter, InsertOneResult } from 'mongodb';
+import { Db, MongoClient, Collection, Document, Filter, InsertOneResult, DeleteResult } from 'mongodb';
 import clientPromise from './mongodb'; // Ensure this exports a connected MongoClient
 
 export class DataBase {
@@ -219,6 +219,31 @@ export class DataBase {
       throw error; // Re-throw the error to notify the caller
     }
   }
+
+    /**
+   * removeAllDocuments - Removes all documents from the specified collection.
+   * @param collectionName - The name of the collection to remove all documents from.
+   * @returns A promise that resolves to the result of the deletion.
+   */
+    public async removeAllDocuments<T extends Document>(
+      collectionName: string
+    ): Promise<DeleteResult> {
+      // Ensure the database is connected
+      if (!this.db) {
+        await this.connectDb();
+      }
+  
+      try {
+        const collection = this.getCollection<T>(collectionName);
+        const result: DeleteResult = await collection.deleteMany({});
+  
+        console.log(`Successfully deleted ${result.deletedCount} documents from "${collectionName}".`);
+        return result;
+      } catch (error) {
+        console.error(`Error deleting all documents from "${collectionName}":`, error);
+        throw error; // Re-throw the error to notify the caller
+      }
+    }
 };
 
 export default DataBase;

@@ -4,6 +4,7 @@ import { User } from '../../lib/user';
 
 type Data = {
     message: string;
+    verifyEmail?: boolean;
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) 
@@ -14,12 +15,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   }
   console.log(req.body);
 
-  const { _uname: uname, _password: password, _email: email, _trips: trips } = req.body;
-  const newUser = new User(uname, password, email, trips);
+  const { _uname: uname, _password: password, _email: email } = req.body;
+  const newUser = new User(uname, password, email);
 
   try {
     const dbInstance = DataBase.getInstance("PGC");
     await dbInstance.initDb<User>(['_uname', '_email'], "Users");
+
+    console.log("Create DB instance");
 
     // USERNAME VERIFIER
     const usernameExists = await dbInstance.documentExists<User>('_uname', newUser.getUname(), 'Users');
@@ -30,14 +33,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     const emailExists = await dbInstance.documentExists<User>('_email', newUser.getEmail(), 'Users');
     if (emailExists) {
       return res.status(409).json({ message: 'Email already registered.' });
-    } else {
-      
     }
 
     console.log("Verification Finished");
 
-    // INSERT
-    const user = new User(uname, password, email, trips);
+    // INSERT USER INTO DB
+    const user = new User(uname, password, email);
     await dbInstance.addDocument<User>("Users", user.toDB());
 
     console.log("Added New User to DB");

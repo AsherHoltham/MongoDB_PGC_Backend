@@ -1,7 +1,8 @@
 "use client";
-import { RegisterForm } from "../../../components/register";
+import { RegisterForm } from "../../../components/RegisterForm";
 import Link from "next/link";
 import React, { useState } from "react";
+import { useRouter } from 'next/navigation';
 import { User } from "../../../../lib/user";
 
 export default function RegisterPage() {
@@ -9,11 +10,11 @@ export default function RegisterPage() {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const [message, setMessage] = useState('');
+    const router = useRouter();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const trips: string[] = []
-        const newUser = new User(uname, password, email, trips);
+        const newUser = new User(uname, password, email);
         const userJson = JSON.stringify(newUser.toDB());
 
         console.log("New user ready to be saved:", userJson);
@@ -31,6 +32,7 @@ export default function RegisterPage() {
               setMessage(data.message); // Success message from API
               // Optionally, redirect the user to another page (e.g., login page)
               console.log('User registered successfully');
+              router.push('/verify-email');
             } else {
               setMessage(data.message); // Error message from API
               console.error('Error:', data.message);
