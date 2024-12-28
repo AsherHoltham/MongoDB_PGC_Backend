@@ -1,5 +1,5 @@
 "use client";
-import { RegisterForm } from "../../../components/Register";
+import { RegisterForm } from "../../../components/register";
 import Link from "next/link";
 import React, { useState } from "react";
 import { User } from "../../../../lib/user";

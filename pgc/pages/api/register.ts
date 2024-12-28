@@ -31,7 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     if (emailExists) {
       return res.status(409).json({ message: 'Email already registered.' });
     } else {
-
+      
     }
 
     console.log("Verification Finished");
