@@ -21,20 +21,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     const dbInstance = DataBase.getInstance("PGC");
     await dbInstance.initDb<User>(['_uname', '_email'], "Users");
 
-    // CHECK IF GIVEN INDEXES EXIST
+    // USERNAME VERIFIER
     const usernameExists = await dbInstance.documentExists<User>('_uname', newUser.getUname(), 'Users');
     if (usernameExists) {
       return res.status(409).json({ message: 'Username already exists.' });
     }
+    // EMAIL VERIFIER
     const emailExists = await dbInstance.documentExists<User>('_email', newUser.getEmail(), 'Users');
     if (emailExists) {
       return res.status(409).json({ message: 'Email already registered.' });
+    } else {
+
     }
-    console.log("checkpoint_ADDEDTODB");
+
+    console.log("Verification Finished");
+
     // INSERT
     const user = new User(uname, password, email, trips);
     await dbInstance.addDocument<User>("Users", user.toDB());
-    console.log("checkpoint_ADDEDTODB");
+
+    console.log("Added New User to DB");
 
     return res.status(201).json({ message: 'User registered successfully.' });
   } catch (error: any) {

@@ -46,7 +46,7 @@ export function RegisterForm (
         onSubmitAction(e);
     }
 
-    console.log("USER INIT Form Component")
+    console.log("Resgister Form Component")
     return (
         <div>
             <form onSubmit={ handleSubmit } method="GET">
