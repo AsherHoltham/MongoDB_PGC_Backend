@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export const NavigationBar = () => {
+export const ProdNavBar = () => {
     const pathname = usePathname();
     return (
         <nav className="bg-gradient-to-r from-indigo-600 to-blue-500 shadow-md fixed w-full z-10">
@@ -36,7 +36,6 @@ export const NavigationBar = () => {
             >
                 Forgot-Password
             </Link>
-
         </nav>
     );
 }
