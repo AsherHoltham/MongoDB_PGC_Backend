@@ -1,5 +1,5 @@
 import * as CryptoJS from 'crypto-js';
-import { generateVerificationCode } from "./generateVerificationCode"
+import { generateVerificationCode } from "./generateVerificationCode";
 
 export class User {
     private _uname: string;
@@ -10,8 +10,7 @@ export class User {
     private _verificationCode: string;
 
     constructor(uname: string, password: string, email: string, 
-        trips: string[] = [], verified: boolean = false, 
-        verificationCode: string = generateVerificationCode()) 
+        trips: string[] = [], verified: boolean = false, verificationCode: string = '') 
     {
         this._uname = uname;
         this._password = CryptoJS.SHA256(password).toString();
@@ -19,7 +18,12 @@ export class User {
         this._email = email;
         this._trips = trips;
         this._verified = verified;
-        this._verificationCode = verificationCode;
+        //const code: string = generateVerificationCode();
+        if(verificationCode !== ''){
+            this._verificationCode = verificationCode;
+        } else {
+            this._verificationCode = generateVerificationCode();
+        }
     }
 
     public getUname(): string {
@@ -58,7 +62,7 @@ export class User {
       }
 
     public retIndexes(): string[] {
-        return ["_uname", "_email"];
+        return ["_uname", "_email", "_verified"];
     }
 
     
