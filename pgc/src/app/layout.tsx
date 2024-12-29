@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "../../styles/globals.css";
-import { NavigationBar } from "../components/NavigationBar"
+import { NavigationBar } from "../testing/NavigationBar"
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-       <body>
+       <body className= 'flex justify-center'>
         <main>
           < NavigationBar />
           {children}

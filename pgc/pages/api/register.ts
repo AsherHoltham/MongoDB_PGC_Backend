@@ -4,7 +4,6 @@ import { User } from '../../lib/user';
 
 type Data = {
     message: string;
-    verifyEmail?: boolean;
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) 

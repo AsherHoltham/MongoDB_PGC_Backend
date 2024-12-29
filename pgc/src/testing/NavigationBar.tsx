@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 export const NavigationBar = () => {
     const pathname = usePathname();
     return (
-        <nav>
+        <nav className="bg-gradient-to-r from-indigo-600 to-blue-500 shadow-md fixed w-full z-10">
             <Link 
             href = "/" 
             className = {pathname === "/" ? "font-bold mr-4" : "mr-4 text-blue-500"}
@@ -31,10 +31,10 @@ export const NavigationBar = () => {
                 Forgot-Password
             </Link>
             <Link 
-            href = "/first-login" 
-            className = {pathname === "/first-login"   ? "font-bold mr-4" : "mr-4 text-blue-500"}
+            href = "/verify-email" 
+            className = {pathname === "/verify-email"   ? "font-bold mr-4" : "mr-4 text-blue-500"}
             >
-                Verification-Login
+                Verify-Email
             </Link>
             <Link 
             href = "/cleardb" 

@@ -32,7 +32,7 @@ export default function RegisterPage() {
               setMessage(data.message); // Success message from API
               // Optionally, redirect the user to another page (e.g., login page)
               console.log('User registered successfully');
-              router.push('/first-login');
+              router.push('/verify-email');
             } else {
               setMessage(data.message); // Error message from API
               console.error('Error:', data.message);

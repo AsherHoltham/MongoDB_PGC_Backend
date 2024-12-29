@@ -10,5 +10,8 @@ const getEnvironmentVariable = (environmentVariable: string): string => {
 };
 
 export const config = {
-    dbKey: getEnvironmentVariable("DB_URI")
+    domain: getEnvironmentVariable("DOMAIN"),
+    dbKey: getEnvironmentVariable("DB_URI"),
+    mapKey: getEnvironmentVariable("MAPS_API_KEY"),
+    sgKey: getEnvironmentVariable("MAPS_API_KEY")
 };
