@@ -13,5 +13,4 @@ export const config = {
     domain: getEnvironmentVariable("DOMAIN"),
     dbKey: getEnvironmentVariable("DB_URI"),
     mapKey: getEnvironmentVariable("MAPS_API_KEY"),
-    sgKey: getEnvironmentVariable("MAPS_API_KEY")
 };
