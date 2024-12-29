@@ -1,3 +1,23 @@
+import Link from "next/link";
+
+export default function ForgotPassword() {
+    return (
+        <div style={{ textAlign: "center" }}>
+            <h1>Email Sent</h1>
+            <Link
+                href = "/login" 
+                className = {"mr-4 text-blue-500"}
+                style={{ marginTop: "20px", display: "inline-block" }}
+                >
+            Back to Login
+            </Link>
+        </div>
+    );
+}
+
+
+/**
+
 "use client"
 import { VerifyUserForm } from '../../../components/VerifyUserForm';
 import Link from "next/link";
@@ -5,6 +25,8 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 
 export default function VerificationPage() {
+    console.log("Verification Page");
+
     const [token, setToken] = useState('');
     const [message, setMessage] = useState('');  
     const [email, setEmail] = useState('');
@@ -19,39 +41,48 @@ export default function VerificationPage() {
     }, []);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        const userToken = await fetch('/api/query-emailToken', { method: 'POST', headers: {
-            'Content-Type': 'application/json', },
-            body: email,
-    }}}
-
-        if(token !== userToken){
-            alert("Incorrect authentication code, try again");
-            return
-        }
-
-        console.log("New email verified:", email);
-
-        try {
-            // Send a POST to VERIFY-EMAIL API endpoint
-            const response = await fetch('/api/verify-email', { method: 'POST', headers: {
+        event.preventDefault();
+        console.log("Attempt to verify:", email);
+        
+        try{
+            // Send a GET to VERIFY-EMAIL API endpoint
+            const db_response = await fetch('/api/query-emailToken', { method: 'GET', headers: {
                 'Content-Type': 'application/json', },
-              body: token, // Convert the user object to JSON
+                body: email,
+            })
+
+            const userToken = await db_response.json(); // Parse the JSON response
+
+            if (db_response.ok) {
+                setMessage(message); // Success message from API
+                console.log('Email Queried successfully');
+              } else {
+                console.error('Error:', message);
+              }
+
+            if(token !== userToken){
+                alert("Incorrect authentication code, try again");
+                return;
+            }
+
+            // Send a POST to VERIFY-EMAIL API endpoint
+            const verify_response = await fetch('/api/verify-email', { method: 'POST', headers: {
+                'Content-Type': 'application/json', },
+              body: email, // Convert the user object to JSON
             });
       
-            const data = await response.json(); // Parse the JSON response
-            
-            if (response.ok) {
-              setMessage(data.message); // Success message from API
-
+            const userData = await verify_response.json(); // Parse the JSON response
+    
+            if (verify_response.ok) {
               console.log('User verified successfully');
             } else {
-              setMessage(data.message); // Error message from API
-              console.error('Error:', data.message);
+              setMessage(message); // Error message from API
+              console.error('Error:', message);
             }
-          } catch (error) {
+        } catch (error) {
             console.error('Unexpected error:', error);
             setMessage('An unexpected error occurred. Please try again.');
-          }
+        }
 
         // Send a POST to JWT allocator API endpoint
 
@@ -70,3 +101,4 @@ export default function VerificationPage() {
         </div>
     );
 }
+*/

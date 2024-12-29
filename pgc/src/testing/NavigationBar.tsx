@@ -18,7 +18,7 @@ export const NavigationBar = () => {
             >
                 Register
             </Link>
-            <Link 
+             <Link 
             href = "/verify-email" 
             className = {pathname === "/verify-email"   ? "font-bold mr-4" : "mr-4 text-blue-500"}
             >
