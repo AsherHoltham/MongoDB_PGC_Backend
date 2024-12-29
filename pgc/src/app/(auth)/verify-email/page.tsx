@@ -3,6 +3,7 @@ import { VerifyUserForm } from '../../../components/VerifyUserForm';
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
+import { User } from '../../../../lib/user';
 
 export default function VerificationPage() {
     console.log("Verification Page");
@@ -25,24 +26,36 @@ export default function VerificationPage() {
         console.log("Attempt to verify:", email);
         
         try{
-            // Send a GET to VERIFY-EMAIL API endpoint
-            const db_response = await fetch('/api/query-emailToken?${queryParam}', { method: 'GET', headers: { 'Content-Type': 'application/json', } })
+            // Send a GET to query-database API endpoint
+            const qParam = `field=${encodeURIComponent("_email")}&value=${encodeURIComponent(email)}&type=${encodeURIComponent("User")}`;
 
-            const userToken = await db_response.json(); // Parse the JSON response
+            const db_response = await fetch(`/api/get-db?${qParam}`, { method: 'GET', headers: { 'Content-Type': 'application/json', } })
 
             if (db_response.ok) {
                 setMessage(message); // Success message from API
                 console.log('Email Queried successfully');
-              } else {
+            } else {
                 console.error('Error:', message);
-              }
+            }
 
-            if(token !== userToken){
+            const userInstance = JSON.stringify(db_response);
+
+            console.log(userInstance, ": from query");
+    
+            // Parse the JSON string back into an object
+            const parsedResult = JSON.parse(userInstance);
+    
+            // Access the "_verificationCode" key
+            const verificationCode = parsedResult["_verificationCode"];
+
+            if(token !== verificationCode){
                 alert("Incorrect authentication code, try again");
                 return;
             }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            console.log("Updating user in DB to display verified");
 
-            // Send a POST to VERIFY-EMAIL API endpoint
+            // Send a PUT to VERIFY-EMAIL API endpoint
             const verify_response = await fetch('/api/verify-email', { method: 'POST', headers: {
                 'Content-Type': 'application/json', },
               body: email, // Convert the user object to JSON
