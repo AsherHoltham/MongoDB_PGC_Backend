@@ -37,7 +37,7 @@ export function RegisterForm (
             return;
         }
 
-        //alert("Check your email to verify your account!");
+        alert("Check your email to verify your account!");
 
         alert("All good!");
 

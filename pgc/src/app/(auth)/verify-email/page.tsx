@@ -1,8 +1,8 @@
 "use client"
 import { VerifyUserForm } from '../../../components/VerifyUserForm';
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import { useRouter } from 'next/navigation';
+import React, { useState } from "react";
+import { useRouter, useSearchParams } from 'next/navigation';
 import { User } from '../../../../lib/user';
 
 export default function VerificationPage() {
@@ -10,20 +10,15 @@ export default function VerificationPage() {
 
     const [token, setToken] = useState('');
     const [message, setMessage] = useState('');  
-    const [email, setEmail] = useState('');
+    const searchParams = useSearchParams();
+    const email = searchParams?.get('input') || '';
     const router = useRouter();
 
-    useEffect(() => {
-        const savedMessage = localStorage.getItem('verificationMessage');
-        if (savedMessage) {
-            setEmail(savedMessage);
-            localStorage.removeItem('verificationMessage'); // Clean up after use
-        }
-    }, []);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         console.log("Attempt to verify:", email);
+        console.log(email);
         
         try{
             // Send a GET to query-database API endpoint
@@ -77,17 +72,11 @@ export default function VerificationPage() {
 
             // Send a POST to JWT allocator API endpoint
 
-
-
-
-
-
         } catch (error) {
             console.error('Unexpected error:', error);
             setMessage('An unexpected error occurred. Please try again.');
         }
     }
-
 
     return(
         <div style={{ textAlign: "center" }}>
