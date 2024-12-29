@@ -251,27 +251,52 @@ export class DataBase {
   }
 
 
-  /**
-   * requestDocument - queries the database
-   * @param collectionName - The name of the collection to insert the document into.
-   * @param field - The field to be indexed
-   * @param value - The value to be searched
-   * @returns A promise that resolves to the result of the query.
+    /**
+     * requestDocument - queries the database
+     * @param collectionName - The name of the collection to insert the document into.
+     * @param field - The field to be indexed
+     * @param value - The value to be searched
+     * @returns A promise that resolves to the result of the query.
+     */
+    public async requestDocument<T extends Document>( collectionName: string, field: string, value: any ): Promise<WithId<T> | null>
+    {
+      if (!this.db) {
+        await this.connectDb();
+      }
+      try {
+        const collection = this.getCollection<T>(collectionName);
+        const document: WithId<T> | null = await collection.findOne(this.buildQuery(field, value));
+        return document;
+      } catch (error) {
+        console.error(`Error querying the database from "${collectionName}":`, error);
+        throw error;
+      }
+    }
+
+
+    /**
+   * removeDocument - Removes one document from the specified collection.
+   * @param collectionName - The name of the collection to remove all documents from.
+   * @returns A promise that resolves to the result of the deletion.
    */
-  public async requestDocument<T extends Document>( collectionName: string, field: string, value: any ): Promise<WithId<T> | null>
-  {
-    if (!this.db) {
-      await this.connectDb();
+    public async removeDocument<T extends Document>( collectionName: string, field: string, value: any ): Promise<DeleteResult> 
+    {
+      // Ensure the database is connected
+      if (!this.db) {
+        await this.connectDb();
+      }
+  
+      try {
+        const collection = this.getCollection<T>(collectionName);
+        const result: DeleteResult = await collection.deleteOne(this.buildQuery(field, value));
+  
+        console.log(`Successfully deleted ${result.deletedCount} from "${collectionName}".`);
+        return result;
+      } catch (error) {
+        console.error(`Error deleting document from "${collectionName}":`, error);
+        throw error; // Re-throw the error to notify the caller
+      }
     }
-    try {
-      const collection = this.getCollection<T>(collectionName);
-      const document: WithId<T> | null = await collection.findOne(this.buildQuery(field, value));
-      return document;
-    } catch (error) {
-      console.error(`Error querying the database from "${collectionName}":`, error);
-      throw error;
-    }
-  }
 };
 
 export default DataBase;
