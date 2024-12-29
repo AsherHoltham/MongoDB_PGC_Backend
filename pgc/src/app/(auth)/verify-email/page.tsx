@@ -24,24 +24,31 @@ export default function VerificationPage() {
             // Send a GET to query-database API endpoint
             const qParam = `field=${encodeURIComponent("_email")}&value=${encodeURIComponent(email)}&type=${encodeURIComponent("User")}`;
 
-            const db_response = await fetch(`/api/get-db?${qParam}`, { method: 'GET', headers: { 'Content-Type': 'application/json', } })
+            const response = await fetch(`/api/get-db?${qParam}`, { method: 'GET', headers: { 'Content-Type': 'application/json', } })
 
-            if (db_response.ok) {
+            const data = await response.json(); // Parse JSON response
+            if (response.ok) {
                 setMessage(message); // Success message from API
                 console.log('Email Queried successfully');
             } else {
                 console.error('Error:', message);
             }
+            console.log(data, ": from query");
 
-            const userInstance = JSON.stringify(db_response);
+            const userJson = JSON.stringify(data['message']);
 
-            console.log(userInstance, ": from query");
-    
-            // Parse the JSON string back into an object
-            const parsedResult = JSON.parse(userInstance);
-    
+            console.log(userJson, ": message from query");
+
+            const parsed = JSON.parse(userJson)
+
+            console.log(parsed, ": message from query");
+
             // Access the "_verificationCode" key
-            const verificationCode = parsedResult["_verificationCode"];
+            const verificationCode: string = parsed["_verificationCode"];
+
+            console.log("input token: ", token);
+
+            console.log("_verificationCode: ", verificationCode);
 
             if(token !== verificationCode){
                 alert("Incorrect authentication code, try again");

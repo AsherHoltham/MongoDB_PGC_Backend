@@ -3,8 +3,7 @@ import DataBase from '../../lib/db';
 import { User } from '../../lib/user';
 
 type Data = {
-    message: string;
-    data?: any;
+    message?: string;
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
@@ -47,12 +46,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         console.log(result, ": from query");
 
         // Respond with the user data and verification code
-        return res.status(200).json({
-            message: 'User retrieved successfully.',
-            data: {
-                result,
-            },
-        });
+        return res.status(200).json({ message: result });
 
     } catch (error: any) {
         console.error('Query Error:', error);
