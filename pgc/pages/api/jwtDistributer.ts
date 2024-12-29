@@ -1,1 +1,4 @@
-import accessSecret, refreshSecret from '../../lib/api-inits/jwtSecure';
+import secrets from '../../lib/api-inits/jwtSecure';
+
+const { accessSecret, refreshSecret } = secrets;
+

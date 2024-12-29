@@ -60,13 +60,3 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     }
 }
 
-/**
- * FORMAT FOR PACKAGING A QUERY
- * const queryParam = 'some value with spaces & special characters';
-
-// Encode the query parameter
-const encodedQueryParam = encodeURIComponent(queryParam);
-
-// Send it via fetch
-const db_response = await fetch(`/api/query-database?query=${encodedQueryParam}`, { method: 'GET', headers: { 'Content-Type': 'application/json', } })
- */

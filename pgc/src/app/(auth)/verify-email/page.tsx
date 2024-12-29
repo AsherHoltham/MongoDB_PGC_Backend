@@ -56,12 +56,14 @@ export default function VerificationPage() {
             console.log("Updating user in DB to display verified");
 
             // Send a PUT to VERIFY-EMAIL API endpoint
-            const verify_response = await fetch('/api/verify-email', { method: 'POST', headers: {
+            const verify_response = await fetch('/api/put-db', { method: 'PUT', headers: {
                 'Content-Type': 'application/json', },
-              body: email, // Convert the user object to JSON
+              body: email, 
             });
       
-            const userData = await verify_response.json(); // Parse the JSON response
+            const resp = await verify_response.json(); // Parse the JSON response
+
+            console.log(resp);
     
             if (verify_response.ok) {
               console.log('User verified successfully');
@@ -70,7 +72,8 @@ export default function VerificationPage() {
               console.error('Error:', message);
             }
 
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            console.log("Generating JWT Token for user");
 
             // Send a POST to JWT allocator API endpoint
 
