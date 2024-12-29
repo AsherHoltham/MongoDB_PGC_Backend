@@ -36,6 +36,12 @@ export const NavigationBar = () => {
             >
                 Forgot-Password
             </Link>
+            <Link
+            href = "/cleardb" 
+            className = {pathname === "cleardb"   ? "font-bold mr-4" : "mr-4 text-blue-500"}
+            >
+                clear-DataBase
+            </Link>
 
         </nav>
     );
