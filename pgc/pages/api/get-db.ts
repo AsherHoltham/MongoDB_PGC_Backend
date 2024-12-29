@@ -45,8 +45,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
         console.log(result, ": from query");
 
+        const { _verificationCode } = JSON.parse(result);
+
+
         // Respond with the user data and verification code
-        return res.status(200).json({ message: result });
+        return res.status(200).json({ message: _verificationCode});
 
     } catch (error: any) {
         console.error('Query Error:', error);

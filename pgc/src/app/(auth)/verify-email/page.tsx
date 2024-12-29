@@ -28,32 +28,23 @@ export default function VerificationPage() {
 
             const data = await response.json(); // Parse JSON response
             if (response.ok) {
-                setMessage(message); // Success message from API
+                setMessage(message); 
                 console.log('Email Queried successfully');
             } else {
                 console.error('Error:', message);
             }
             console.log(data, ": from query");
 
-            const userJson = JSON.stringify(data['message']);
+            const verificationCode: string = data['message'];
 
-            console.log(userJson, ": message from query");
-
-            const parsed = JSON.parse(userJson)
-
-            console.log(parsed, ": message from query");
-
-            // Access the "_verificationCode" key
-            const verificationCode: string = parsed["_verificationCode"];
-
-            console.log("input token: ", token);
-
+            console.log("User input: ", token);
             console.log("_verificationCode: ", verificationCode);
 
             if(token !== verificationCode){
                 alert("Incorrect authentication code, try again");
                 return;
             }
+            console.log("CORRECT!!!");
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             console.log("Updating user in DB to display verified");
 
