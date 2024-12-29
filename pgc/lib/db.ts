@@ -1,4 +1,4 @@
-import { Db, MongoClient, Collection, Document, Filter, InsertOneResult, DeleteResult } from 'mongodb';
+import { Db, MongoClient, Collection, Document, Filter, InsertOneResult, DeleteResult, WithId } from 'mongodb';
 import clientPromise from './api-inits/mongodb'; // Ensure this exports a connected MongoClient
 
 export class DataBase {
@@ -225,6 +225,7 @@ export class DataBase {
     }
   }
 
+
   /**
    * removeAllDocuments - Removes all documents from the specified collection.
    * @param collectionName - The name of the collection to remove all documents from.
@@ -246,6 +247,29 @@ export class DataBase {
     } catch (error) {
       console.error(`Error deleting all documents from "${collectionName}":`, error);
       throw error; // Re-throw the error to notify the caller
+    }
+  }
+
+
+  /**
+   * requestDocument - queries the database
+   * @param collectionName - The name of the collection to insert the document into.
+   * @param field - The field to be indexed
+   * @param value - The value to be searched
+   * @returns A promise that resolves to the result of the query.
+   */
+  public async requestDocument<T extends Document>( collectionName: string, field: string, value: any ): Promise<WithId<T> | null>
+  {
+    if (!this.db) {
+      await this.connectDb();
+    }
+    try {
+      const collection = this.getCollection<T>(collectionName);
+      const document: WithId<T> | null = await collection.findOne(this.buildQuery(field, value));
+      return document;
+    } catch (error) {
+      console.error(`Error querying the database from "${collectionName}":`, error);
+      throw error;
     }
   }
 };

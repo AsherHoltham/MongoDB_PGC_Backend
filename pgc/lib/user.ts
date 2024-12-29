@@ -73,4 +73,15 @@ export class User {
         }
         return code;
     }
+
+    static fromJSON(userJSON: any): User {
+        return new User(
+          userJSON.uname,
+          userJSON.password,
+          userJSON.email,
+          userJSON.trips || [],
+          userJSON.verified || false,
+          userJSON.verificationCode || ''
+        );
+    }
 };

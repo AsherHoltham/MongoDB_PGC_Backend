@@ -1,23 +1,3 @@
-import Link from "next/link";
-
-export default function ForgotPassword() {
-    return (
-        <div style={{ textAlign: "center" }}>
-            <h1>Email Sent</h1>
-            <Link
-                href = "/login" 
-                className = {"mr-4 text-blue-500"}
-                style={{ marginTop: "20px", display: "inline-block" }}
-                >
-            Back to Login
-            </Link>
-        </div>
-    );
-}
-
-
-/**
-
 "use client"
 import { VerifyUserForm } from '../../../components/VerifyUserForm';
 import Link from "next/link";
@@ -46,10 +26,7 @@ export default function VerificationPage() {
         
         try{
             // Send a GET to VERIFY-EMAIL API endpoint
-            const db_response = await fetch('/api/query-emailToken', { method: 'GET', headers: {
-                'Content-Type': 'application/json', },
-                body: email,
-            })
+            const db_response = await fetch('/api/query-emailToken?${queryParam}', { method: 'GET', headers: { 'Content-Type': 'application/json', } })
 
             const userToken = await db_response.json(); // Parse the JSON response
 
@@ -79,14 +56,20 @@ export default function VerificationPage() {
               setMessage(message); // Error message from API
               console.error('Error:', message);
             }
+
+
+
+            // Send a POST to JWT allocator API endpoint
+
+
+
+
+
+
         } catch (error) {
             console.error('Unexpected error:', error);
             setMessage('An unexpected error occurred. Please try again.');
         }
-
-        // Send a POST to JWT allocator API endpoint
-
-
     }
 
 
@@ -101,4 +84,3 @@ export default function VerificationPage() {
         </div>
     );
 }
-*/

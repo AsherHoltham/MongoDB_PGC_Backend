@@ -12,5 +12,7 @@ const getEnvironmentVariable = (environmentVariable: string): string => {
 export const config = {
     domain: getEnvironmentVariable("DOMAIN"),
     dbKey: getEnvironmentVariable("DB_URI"),
-    mapKey: getEnvironmentVariable("MAPS_API_KEY"),
+    sgKey: getEnvironmentVariable("SG_KEY"),
+    accessTokenSecret: getEnvironmentVariable("ACCESS_TOKEN_SECRET"),
+    refreshTokenSecret: getEnvironmentVariable("REFRESH_TOKEN_SECRET")
 };
