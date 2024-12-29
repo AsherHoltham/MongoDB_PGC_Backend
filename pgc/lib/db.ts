@@ -19,7 +19,8 @@ export class DataBase {
    * @param dbName - The name of the MongoDB database to connect to.
    * @returns A single instance of the DataBase class.
    */
-  public static getInstance(dbName: string): DataBase {
+  public static getInstance(dbName: string): DataBase 
+  {
     if (!DataBase.instance) {
       DataBase.instance = new DataBase(dbName);
     }
@@ -32,10 +33,8 @@ export class DataBase {
      * @param indexes - An array of field names to create unique indexes on.
      * @param collectionName - The name of the collection to apply the indexes to.
      */
-  public async initDb<T extends Document>(
-    indexes: string[], 
-    collectionName: string
-  ): Promise<Db | null> {
+  public async initDb<T extends Document>( indexes: string[], collectionName: string ): Promise<Db | null> 
+  {
     console.log("initDB");
     if (!this.db) {
       try {
@@ -63,7 +62,8 @@ export class DataBase {
    * connectDb - Initialize the database connection.
    * @returns A promise that resolves when the connection is established.
    */
-  private async connectDb(): Promise<void> {
+  private async connectDb(): Promise<void> 
+  {
     if (this.client && this.db) {
       console.log(`Already connected to ${this.dbName}`);
       return;
@@ -83,7 +83,8 @@ export class DataBase {
    * disconnectDb - Close the database connection.
    * @returns A promise that resolves when the connection is closed.
    */
-  private async disconnectDb(): Promise<void> {
+  private async disconnectDb(): Promise<void> 
+  {
     if (!this.client) {
       console.log('No active MongoDB connection to close.');
       return;
@@ -105,7 +106,8 @@ export class DataBase {
    * @param indexes - An array of field names to create unique indexes on.
    * @param collectionName - The name of the collection to apply the indexes to.
    */
-  public async initCollection<T extends Document>(indexes: string[], collectionName: string): Promise<Db | null> {
+  public async initCollection<T extends Document>(indexes: string[], collectionName: string): Promise<Db | null> 
+  {
     if(!this.db){
       await this.connectDb();
     }
@@ -126,7 +128,8 @@ export class DataBase {
    * @param fieldName - The field on which to create the unique index.
    * @param collectionName - The name of the collection to apply the index to.
    */
-  private async createUniqueIndex<T extends Document>(fieldName: string, collectionName: string): Promise<void> {
+  private async createUniqueIndex<T extends Document>(fieldName: string, collectionName: string): Promise<void> 
+  {
     try {
       const collection = this.getCollection<T>(collectionName);
       await collection.createIndex({ [fieldName]: 1 }, { unique: true });
@@ -148,7 +151,8 @@ export class DataBase {
    * @param collectionName - The name of the collection to retrieve.
    * @returns The MongoDB Collection instance.
    */
-  private getCollection<T extends Document>(collectionName: string): Collection<T> {
+  private getCollection<T extends Document>(collectionName: string): Collection<T> 
+  {
     if (!this.db) {
       throw new Error('Database not initialized. Call initDb() first.');
     }
@@ -162,7 +166,8 @@ export class DataBase {
    * @param value - The value to search for in the specified field.
    * @returns A MongoDB filter object.
    */
-  private buildQuery(field: string, value: any): Filter<any> {
+  private buildQuery(field: string, value: any): Filter<any> 
+  {
     return { [field]: value };
   }
 
@@ -174,7 +179,8 @@ export class DataBase {
    * @param collectionName - The name of the collection to search in.
    * @returns A promise that resolves to true if the document exists, false otherwise.
    */
-  public async documentExists<T extends Document>(field: string, value: any, collectionName: string): Promise<boolean> {
+  public async documentExists<T extends Document>(field: string, value: any, collectionName: string): Promise<boolean> 
+  {
     if(!this.db){
       await this.connectDb();
     }
@@ -196,9 +202,8 @@ export class DataBase {
    * @param document - The document to be inserted.
    * @returns A promise that resolves to the result of the insertion.
    */
-  public async addDocument<T extends Document>( collectionName: string, document: any 
-    ): Promise<InsertOneResult<T>> 
-    {
+  public async addDocument<T extends Document>( collectionName: string, document: any ): Promise<InsertOneResult<T>> 
+  {
     // Ensure the database is connected
     if (!this.db) {
       await this.connectDb();
@@ -220,30 +225,29 @@ export class DataBase {
     }
   }
 
-    /**
+  /**
    * removeAllDocuments - Removes all documents from the specified collection.
    * @param collectionName - The name of the collection to remove all documents from.
    * @returns A promise that resolves to the result of the deletion.
    */
-    public async removeAllDocuments<T extends Document>(
-      collectionName: string
-    ): Promise<DeleteResult> {
-      // Ensure the database is connected
-      if (!this.db) {
-        await this.connectDb();
-      }
-  
-      try {
-        const collection = this.getCollection<T>(collectionName);
-        const result: DeleteResult = await collection.deleteMany({});
-  
-        console.log(`Successfully deleted ${result.deletedCount} documents from "${collectionName}".`);
-        return result;
-      } catch (error) {
-        console.error(`Error deleting all documents from "${collectionName}":`, error);
-        throw error; // Re-throw the error to notify the caller
-      }
+  public async removeAllDocuments<T extends Document>( collectionName: string ): Promise<DeleteResult> 
+  {
+    // Ensure the database is connected
+    if (!this.db) {
+      await this.connectDb();
     }
+
+    try {
+      const collection = this.getCollection<T>(collectionName);
+      const result: DeleteResult = await collection.deleteMany({});
+
+      console.log(`Successfully deleted ${result.deletedCount} documents from "${collectionName}".`);
+      return result;
+    } catch (error) {
+      console.error(`Error deleting all documents from "${collectionName}":`, error);
+      throw error; // Re-throw the error to notify the caller
+    }
+  }
 };
 
 export default DataBase;

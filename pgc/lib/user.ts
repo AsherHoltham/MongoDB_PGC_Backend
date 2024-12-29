@@ -1,5 +1,4 @@
 import * as CryptoJS from 'crypto-js';
-import { generateVerificationCode } from "./generateVerificationCode";
 
 export class User {
     private _uname: string;
@@ -12,17 +11,17 @@ export class User {
     constructor(uname: string, password: string, email: string, 
         trips: string[] = [], verified: boolean = false, verificationCode: string = '') 
     {
+        const code: string = this.generateVerificationCode();
         this._uname = uname;
         this._password = CryptoJS.SHA256(password).toString();
         console.log(this._password);
         this._email = email;
         this._trips = trips;
         this._verified = verified;
-        //const code: string = generateVerificationCode();
         if(verificationCode !== ''){
             this._verificationCode = verificationCode;
         } else {
-            this._verificationCode = generateVerificationCode();
+            this._verificationCode = code;
         }
     }
 
@@ -65,5 +64,12 @@ export class User {
         return ["_uname", "_email", "_verified"];
     }
 
-    
+    private generateVerificationCode(length: number = 6): string {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let code = '';
+        for (let i = 0; i < length; i++) {
+          code += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        return code;
+    }
 };
