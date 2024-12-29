@@ -13,28 +13,28 @@ export const NavigationBar = () => {
                 Home
             </Link>
             <Link 
-            href = "/login" 
-            className = {pathname === "/login" ? "font-bold mr-4" : "mr-4 text-blue-500"}
-            >
-                Login
-            </Link>
-            <Link 
             href = "/register" 
             className = {pathname === "/register" ? "font-bold mr-4" : "mr-4 text-blue-500"}
             >
                 Register
             </Link>
             <Link 
-            href = "/forgot-password" 
-            className = {pathname === "/forgot-password"   ? "font-bold mr-4" : "mr-4 text-blue-500"}
-            >
-                Forgot-Password
-            </Link>
-            <Link 
             href = "/verify-email" 
             className = {pathname === "/verify-email"   ? "font-bold mr-4" : "mr-4 text-blue-500"}
             >
                 Verify-Email
+            </Link>
+            <Link 
+            href = "/login" 
+            className = {pathname === "/login" ? "font-bold mr-4" : "mr-4 text-blue-500"}
+            >
+                Login
+            </Link>
+            <Link 
+            href = "/forgot-password" 
+            className = {pathname === "/forgot-password"   ? "font-bold mr-4" : "mr-4 text-blue-500"}
+            >
+                Forgot-Password
             </Link>
             <Link 
             href = "/cleardb" 

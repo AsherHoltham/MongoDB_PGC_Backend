@@ -1,5 +1,5 @@
 import { MongoClient, MongoClientOptions } from 'mongodb';
-import { config } from '../config';
+import { config } from '../../config';
 
 const uri = config.dbKey;
 

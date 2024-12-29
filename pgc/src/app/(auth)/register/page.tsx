@@ -27,6 +27,7 @@ export default function RegisterPage() {
             });
       
             const data = await response.json(); // Parse the JSON response
+            console.log(data);
             
             if (response.ok) {
               setMessage(data.message); // Success message from API

@@ -41,12 +41,13 @@ export class User {
         return this._verified;
     }
 
-    public setVerificationStatus() {
-        this._verified = true;
-    }
-
     public getVerificationCode(): string {
         return this._verificationCode;
+    }
+
+    public updateVerificationStatus() {
+        this._verified = true;
+        this._verificationCode = "__0__";
     }
 
     public toDB(): Record<string, any> {
