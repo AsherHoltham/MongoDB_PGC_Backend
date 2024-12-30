@@ -6,13 +6,11 @@ export class DataBase {
   private client: MongoClient | null = null;
   private db: Db | null = null;
 
-  
   /**
    * Private constructor to prevent direct instantiation.
    * @param dbName - The name of the MongoDB database to connect to.
    */
   private constructor(private dbName: string) {}
-
 
   /**
    * getInstance - Static method to get the single instance of the DataBase class.
@@ -26,7 +24,6 @@ export class DataBase {
     }
     return DataBase.instance;
   }
-
 
   /**
      * initDb - Initialize the database connection and create unique indexes.
@@ -57,7 +54,6 @@ export class DataBase {
     return this.db;
   }
 
-
   /**
    * connectDb - Initialize the database connection.
    * @returns A promise that resolves when the connection is established.
@@ -77,7 +73,6 @@ export class DataBase {
       throw error; // Re-throw the error after logging
     }
   }
-
 
   /**
    * disconnectDb - Close the database connection.
@@ -100,7 +95,6 @@ export class DataBase {
     }
   }
 
-
   /**
    * initCollection - Initialize the database connection and create unique indexes.
    * @param indexes - An array of field names to create unique indexes on.
@@ -121,7 +115,6 @@ export class DataBase {
     }
     return this.db;
   }
-
 
   /**
    * createUniqueIndex - Creates a unique index on the specified field.
@@ -145,7 +138,6 @@ export class DataBase {
     }
   }
 
-
   /**
    * getCollection - Retrieves the specified collection with type safety.
    * @param collectionName - The name of the collection to retrieve.
@@ -159,7 +151,6 @@ export class DataBase {
     return this.db.collection<T>(collectionName);
   }
 
-
   /**
    * buildQuery - Constructs a MongoDB filter based on the field, value, and options.
    * @param field - The field name to check.
@@ -170,7 +161,6 @@ export class DataBase {
   {
     return { [field]: value };
   }
-
 
   /**
    * documentExists - Checks if a document with the specified field value exists in the collection.
@@ -194,7 +184,6 @@ export class DataBase {
       throw error; // Rethrow to notify calling code
     }
   }
-
 
   /**
    * addDocument - Inserts a document into the specified collection.
@@ -225,7 +214,6 @@ export class DataBase {
     }
   }
 
-
   /**
    * removeAllDocuments - Removes all documents from the specified collection.
    * @param collectionName - The name of the collection to remove all documents from.
@@ -250,53 +238,50 @@ export class DataBase {
     }
   }
 
-
-    /**
-     * requestDocument - queries the database
-     * @param collectionName - The name of the collection to insert the document into.
-     * @param field - The field to be indexed
-     * @param value - The value to be searched
-     * @returns A promise that resolves to the result of the query.
-     */
-    public async requestDocument<T extends Document>( collectionName: string, field: string, value: any ): Promise<WithId<T> | null>
-    {
-      if (!this.db) {
-        await this.connectDb();
-      }
-      try {
-        const collection = this.getCollection<T>(collectionName);
-        const document: WithId<T> | null = await collection.findOne(this.buildQuery(field, value));
-        return document;
-      } catch (error) {
-        console.error(`Error querying the database from "${collectionName}":`, error);
-        throw error;
-      }
+  /**
+   * requestDocument - queries the database
+   * @param collectionName - The name of the collection to insert the document into.
+   * @param field - The field to be indexed
+   * @param value - The value to be searched
+   * @returns A promise that resolves to the result of the query.
+   */
+  public async requestDocument<T extends Document>( collectionName: string, field: string, value: any ): Promise<WithId<T> | null>
+  {
+    if (!this.db) {
+      await this.connectDb();
     }
+    try {
+      const collection = this.getCollection<T>(collectionName);
+      const document: WithId<T> | null = await collection.findOne(this.buildQuery(field, value));
+      return document;
+    } catch (error) {
+      console.error(`Error querying the database from "${collectionName}":`, error);
+      throw error;
+    }
+  }
 
-
-    /**
+  /**
    * removeDocument - Removes one document from the specified collection.
    * @param collectionName - The name of the collection to remove all documents from.
    * @returns A promise that resolves to the result of the deletion.
    */
-    public async removeDocument<T extends Document>( collectionName: string, field: string, value: any ): Promise<DeleteResult> 
-    {
-      // Ensure the database is connected
-      if (!this.db) {
-        await this.connectDb();
-      }
-  
-      try {
-        const collection = this.getCollection<T>(collectionName);
-        const result: DeleteResult = await collection.deleteOne(this.buildQuery(field, value));
-  
-        console.log(`Successfully deleted ${result.deletedCount} from "${collectionName}".`);
-        return result;
-      } catch (error) {
-        console.error(`Error deleting document from "${collectionName}":`, error);
-        throw error; // Re-throw the error to notify the caller
-      }
+  public async removeDocument<T extends Document>( collectionName: string, field: string, value: any ): Promise<DeleteResult> 
+  {
+    // Ensure the database is connected
+    if (!this.db) {
+      await this.connectDb();
     }
-};
 
+    try {
+      const collection = this.getCollection<T>(collectionName);
+      const result: DeleteResult = await collection.deleteOne(this.buildQuery(field, value));
+
+      console.log(`Successfully deleted ${result.deletedCount} from "${collectionName}".`);
+      return result;
+    } catch (error) {
+      console.error(`Error deleting document from "${collectionName}":`, error);
+      throw error; // Re-throw the error to notify the caller
+    }
+  }
+};
 export default DataBase;
