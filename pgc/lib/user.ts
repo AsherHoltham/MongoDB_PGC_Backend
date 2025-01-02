@@ -1,5 +1,3 @@
-import * as CryptoJS from 'crypto-js';
-
 export class User {
     private _uname: string;
     private _password: string;
@@ -13,15 +11,15 @@ export class User {
     {
         const code: string = this.generateVerificationCode();
         this._uname = uname;
-        this._password = CryptoJS.SHA256(password).toString();
+        this._password = password;
         console.log(this._password);
         this._email = email;
         this._trips = trips;
         this._verified = verified;
-        if(verificationCode !== ''){
-            this._verificationCode = verificationCode;
-        } else {
+        if(verificationCode === ''){
             this._verificationCode = code;
+        } else {
+            this._verificationCode = verificationCode;
         }
     }
 

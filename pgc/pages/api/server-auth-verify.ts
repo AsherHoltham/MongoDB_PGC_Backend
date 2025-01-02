@@ -1,10 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import DataBase from '../../lib/db';
 import { User } from '../../lib/user';
-import { TripleDES } from 'crypto-js';
 
 type Data = {
-    message: string;
+    message?: string;
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) 
@@ -24,24 +23,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     
             // Initialize database instance
             const dbInstance = DataBase.getInstance("PGC");
-            await dbInstance.initDb<User>(['_uname', '_email'], "Users");
+            await dbInstance.initDb<User>(['_uname', '_email'], 'User');
     
             console.log("Database instance initialized"); //////////////////////////////////////// ####
     
-            const oldUser = await dbInstance.requestDocument<User>("Users", field, value);
+            const oldUser = await dbInstance.requestDocument<User>('User', field, value);
             const userJson = JSON.stringify(oldUser);
             console.log("Pulled oldUser instance fromDB"); //////////////////////////////////////// ####
     
             const {_uname, _password, _email, _trips, _verified, _verificationCode} = JSON.parse(userJson);
-            await dbInstance.removeDocument("Users", '_email', _email);
+            await dbInstance.removeDocument('User', '_email', _email);
             console.log("remove old user instance from DB but saved data"); //////////////////////////////////////// ####
     
             const newUser = new User(_uname, _password, _email, _trips, _verified, _verificationCode);
             newUser.updateVerificationStatus();
             console.log("Created New user and Update Verification status"); //////////////////////////////////////// ####
     
-            await dbInstance.addDocument<User>("Users", newUser.toDB());
+            await dbInstance.addDocument<User>('User', newUser.toDB());
             console.log("Add new user to DB"); //////////////////////////////////////// ####
+            return res.status(200).json({ message: 'User verified successfully' });
         }
     } catch (error: any) {
         console.error('PUT Query Error:', error);

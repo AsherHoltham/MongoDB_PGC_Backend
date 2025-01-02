@@ -49,13 +49,16 @@ export default function VerificationPage() {
             console.log("Updating user in DB to display verified");
 
             // Send a PUT to VERIFY-EMAIL API endpoint
-            const verify_response = await fetch('/api/put-db', { method: 'PUT', headers: {
+            const body = {
+                "field": "_email",
+                "value": email,
+                "collection": "User"
+              };
+            const verify_response = await fetch('/api/server-auth-verify', { method: 'PUT', headers: {
                 'Content-Type': 'application/json', },
-              body: email, 
+              body: JSON.stringify(body), 
             });
-      
             const resp = await verify_response.json(); // Parse the JSON response
-
             console.log(resp);
     
             if (verify_response.ok) {

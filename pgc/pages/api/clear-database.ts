@@ -14,9 +14,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     try {
         const dbInstance = DataBase.getInstance("PGC");
 
-        await dbInstance.initDb<User>(['_uname', '_email'], "Users");
+        await dbInstance.initDb<User>(['_uname', '_email'], 'User');
 
-        await dbInstance.removeAllDocuments('Users');
+        await dbInstance.removeAllDocuments('User');
         
         return res.status(201).json({ message: 'DB cleared' });
     } catch (error: any) {

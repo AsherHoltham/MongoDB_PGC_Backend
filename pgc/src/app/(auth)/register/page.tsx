@@ -21,7 +21,7 @@ export default function RegisterPage() {
 
         try {
             // Send a POST request to the API endpoint
-            const response = await fetch('/api/register', { method: 'POST', headers: {
+            const response = await fetch('/api/server-auth-register', { method: 'POST', headers: {
                 'Content-Type': 'application/json', },
               body: userJson, // Convert the user object to JSON
             });

@@ -25,11 +25,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
             // Initialize database instance
             const dbInstance = DataBase.getInstance("PGC");
-            await dbInstance.initDb<User>(['_uname', '_email'], "Users");
+            await dbInstance.initDb<User>(['_uname', '_email'], 'User');
             console.log("Database instance initialized");
 
             // Query the database for the user
-            const newUser = await dbInstance.requestDocument<User>("Users", decodedField, decodedValue);
+            const newUser = await dbInstance.requestDocument<User>('User', decodedField, decodedValue);
             if (!newUser) {
                 return res.status(404).json({ message: 'User not found.' });
             }
