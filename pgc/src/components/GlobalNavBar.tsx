@@ -1,37 +1,40 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import "../../styles/navigation.css"; // Make sure your CSS path is correct
 
 export const GlobalNavBar = () => {
-    const pathname = usePathname();
-    return (
-        <footer className="bg-gradient-to-r from-indigo-600 to-blue-500 shadow-md fixed bottom-0 w-full z-10">
-            <div className="container mx-auto px-4 py-3 flex justify-center">
-                <Link 
-                href = "/" 
-                className = {pathname === "/" ? "font-bold mr-4" : "mr-4 text-blue-500"}
-                >
-                    Home
-                </Link>
-                <Link 
-                href = "/about" 
-                className = {pathname === "/about" ? "font-bold mr-4" : "mr-4 text-blue-500"}
-                >
-                    About
-                </Link>
-                <Link 
-                href = "/trips" 
-                className = {pathname === "/trips" ? "font-bold mr-4" : "mr-4 text-blue-500"}
-                >
-                    Trips
-                </Link>
-                <Link 
-                href = "/user-profile" 
-                className = {pathname === "/user-profile" ? "font-bold mr-4" : "mr-4 text-blue-500"}
-                >
-                    Profile
-                </Link>
-            </div>
-        </footer>
-    );
-}
+  const pathname = usePathname();
+
+  return (
+    <div className="nav-bar-case">
+      <Link
+        href="/"
+        className={pathname === "/" ? "font-bold text-blue-500" : "text-blue-500"}
+      >
+        <button className="home-button">Home</button>
+      </Link>
+
+      <Link
+        href="/about"
+        className={pathname === "/about" ? "font-bold text-blue-500" : "text-blue-500"}
+      >
+        <button className="about-button">Info</button>
+      </Link>
+
+      <Link
+        href="/trips"
+        className={pathname === "/trips" ? "font-bold text-blue-500" : "text-blue-500"}
+      >
+        <button className="trips-button">Trips</button>
+      </Link>
+
+      <Link
+        href="/user-profile"
+        className={pathname === "/user-profile" ? "font-bold text-blue-500" : "text-blue-500"}
+      >
+        <button className="profile-button">Profile</button>
+      </Link>
+    </div>
+  );
+};

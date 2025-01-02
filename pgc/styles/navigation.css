@@ -1,0 +1,61 @@
+.nav-bar-case {
+    /* Position the nav bar at the bottom of the page */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    
+    /* Flexbox settings */
+    display: flex;  
+    justify-content: center; /* or space-between, space-evenly, center */
+    align-items: center;
+    
+    background-color: #858a3e; /* Example background */
+    padding: 10px;
+    
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1); /* Optional: slight shadow at the top */
+    border-radius: 25px
+}
+
+/* Shared button styles (applies to all four buttons) */
+.home-button,
+.about-button,
+.trips-button,
+.profile-button {
+    /* Make them behave as inline elements within the flex container */
+    display: inline-block;
+    
+    margin: 0 5px;
+    padding: 10px 15px;
+    
+    text-decoration: none; /* Remove underline if these are links */
+    color: #333;           /* Text color */
+    background-color: #4568ca;   /* Button background color */
+    border: 1px solid #ccc;      /* Light border */
+    border-radius: 4px;          /* Rounded corners */
+    
+    transition: background-color 0.3s ease; /* Smooth hover transition */
+}
+
+/* Hover effect (optional) */
+.home-button:hover,
+.about-button:hover,
+.trips-button:hover,
+.profile-button:hover {
+    background-color: #dcdcdc; /* Darken on hover */
+    cursor: pointer;
+}
+
+/* Active/focus state (optional) */
+.home-button:active,
+.about-button:active,
+.trips-button:active,
+.profile-button:active {
+    background-color: #ccc;
+}
+
+/* Individual styles (optional) if you want each button unique) */
+.home-button { /* ... */ }
+.about-button { /* ... */ }
+.trips-button { /* ... */ }
+.profile-button { /* ... */ }
