@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import DataBase from '../../lib/db';
-import { User } from '../../lib/user';
+import DataBase from '../../lib/objects/db';
+import { User } from '../../lib/objects/user';
 
 type Data = {
     message: string;

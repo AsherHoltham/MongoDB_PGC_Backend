@@ -1,5 +1,5 @@
 import { Db, MongoClient, Collection, Document, Filter, InsertOneResult, DeleteResult, WithId } from 'mongodb';
-import clientPromise from './api-inits/mongodb'; // Ensure this exports a connected MongoClient
+import clientPromise from '../api-inits/mongodb'; // Ensure this exports a connected MongoClient
 
 export class DataBase {
   private static instance: DataBase;

@@ -8,7 +8,12 @@ export default function Home() {
 
   return ( 
     <div className="text-center">
-      <h1>PGC</h1>
+      <div>
+        <h1 className= "home-title"
+        >
+          PGC
+        </h1>
+      </div>
       <div className="link-container">
         <Link 
           href="/login" 

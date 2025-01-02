@@ -53,7 +53,7 @@ export function ClearDataBaseButton(){
             <button
                 onClick={handleButtonClick}
                 disabled={loading}
-                className={`px-4 py-2 bg-red-500 text-white rounded ${
+                className={`px-4 py-2 bg-red-500 text-red rounded ${
                     loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-red-600'
                 }`}
             >

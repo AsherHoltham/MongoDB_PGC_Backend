@@ -2,6 +2,14 @@ import { LoginForm } from "../../../components/LoginForm";
 import Link from "next/link";
 
 export default function Login() {
+
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    console.log("Generating JWT Token for user");
+
+    // Send a POST to JWT allocator API endpoint
+
+    
     return (
     <div>
         <main>

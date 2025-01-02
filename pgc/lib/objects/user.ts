@@ -1,13 +1,15 @@
+import { ObjectId } from 'mongodb'
+
 export class User {
     private _uname: string;
     private _password: string;
     private _email: string;
-    private _trips: string[];
+    private _trips: ObjectId[];
     private _verified: boolean;
     private _verificationCode: string;
 
     constructor(uname: string, password: string, email: string, 
-        trips: string[] = [], verified: boolean = false, verificationCode: string = '') 
+        trips: ObjectId[] = [], verified: boolean = false, verificationCode: string = '') 
     {
         const code: string = this.generateVerificationCode();
         this._uname = uname;
@@ -60,7 +62,7 @@ export class User {
       }
 
     public retIndexes(): string[] {
-        return ["_uname", "_email", "_verified"];
+        return ["_uname", "_email"];
     }
 
     private generateVerificationCode(length: number = 6): string {

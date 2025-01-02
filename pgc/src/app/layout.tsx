@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "../../styles/globals.css";
-import { NavigationBar } from "../testing/NavigationBar"
+import { NavigationBar } from "../testing/NavigationBar";
+import { GlobalNavBar } from "../components/GlobalNavBar";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,11 +15,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-       <body className= 'flex justify-center'>
-        <main>
-          < NavigationBar />
+      <body className="flex flex-col min-h-screen">
+        <header className="z-50 bg-white shadow">
+          <NavigationBar />
+        </header>
+        <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 mt-16">
           {children}
         </main>
+        <footer className="z-50 bg-white shadow">
+          <GlobalNavBar />
+        </footer>
       </body>
     </html>
   );

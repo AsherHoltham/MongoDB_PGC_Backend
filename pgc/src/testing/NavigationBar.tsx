@@ -5,12 +5,18 @@ import { usePathname } from "next/navigation";
 export const NavigationBar = () => {
     const pathname = usePathname();
     return (
-        <nav className="bg-gradient-to-r from-indigo-600 to-blue-500 shadow-md fixed w-full z-10">
+        <nav className="bg-gradient-to-r from-indigo-600 to-blue-500 shadow-md fixed w-full z-10 flex justify-center">
             <Link 
             href = "/" 
             className = {pathname === "/" ? "font-bold mr-4" : "mr-4 text-blue-500"}
             >
                 Home
+            </Link>
+            <Link 
+            href = "/about" 
+            className = {pathname === "/about" ? "font-bold mr-4" : "mr-4 text-blue-500"}
+            >
+                About
             </Link>
             <Link 
             href = "/register" 
@@ -38,11 +44,10 @@ export const NavigationBar = () => {
             </Link>
             <Link
             href = "/cleardb" 
-            className = {pathname === "cleardb"   ? "font-bold mr-4" : "mr-4 text-blue-500"}
+            className = {pathname === "/cleardb"   ? "font-bold mr-4" : "mr-4 text-blue-500"}
             >
                 clear-DataBase
             </Link>
-
         </nav>
     );
 }
