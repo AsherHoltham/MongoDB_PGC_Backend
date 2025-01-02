@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-
 import DataBase from '../../lib/db';
 import { User } from '../../lib/user';
 
