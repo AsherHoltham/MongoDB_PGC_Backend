@@ -1,3 +1,9 @@
+import { InfoGithubLink } from '../../../components/InfoGithubLink'
+
 export default function AboutPage(){
-    return <h1>TODO</h1>
+    return(
+        <div>
+            <InfoGithubLink/>
+        </div>
+    );
 }

@@ -1,0 +1,24 @@
+.info-github {
+    display: flex;               /* Use Flexbox */
+    flex-direction: column;      /* Stack items (icon + footer) vertically */
+    justify-content: center;     /* Center them vertically within the container (if it has height) */
+    align-items: center;         /* Center them horizontally */
+    
+    width: 100%;                 /* Let it span the entire width of its parent */
+    margin: 2rem auto;           /* Center it vertically (top/bottom margin in rem, auto left/right) */
+    text-align: center;          /* Make sure text is center-aligned */
+  }
+  
+  /* If you need to style the button differently: */
+  .info-github button {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* Footer adjustments (optional) */
+  .info-github footer {
+    margin-top: 0.5rem;    /* spacing in rem */
+    text-align: center;    /* ensure the text is centered */
+    font-size: 1rem;       /* use rem for font sizing */
+  }
