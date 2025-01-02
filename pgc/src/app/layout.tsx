@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "../../styles/globals.css";
 import { NavigationBar } from "../testing/NavigationBar";
-import { GlobalNavBar } from "../components/GlobalNavBar";
+import { NavigationBarG } from "../components/NavigationBarG";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -23,7 +23,7 @@ export default function RootLayout({
           {children}
         </main>
         <footer className="z-50 bg-white shadow">
-          <GlobalNavBar />
+          <NavigationBarG />
         </footer>
       </body>
     </html>
