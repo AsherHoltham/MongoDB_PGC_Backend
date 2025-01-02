@@ -81,7 +81,6 @@ p {
   @apply text-base sm:text-lg md:text-xl;
 }
 
-/* 11. Flexbox and Grid Utilities for Layouts */
 .flex-center {
   @apply flex items-center justify-center;
 }

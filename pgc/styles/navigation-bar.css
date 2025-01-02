@@ -1,55 +1,49 @@
 .nav-bar-case {
-    /* Position the nav bar at the bottom of the page */
     position: fixed;
     bottom: 0;
     left: 0;
     width: 95%;
-    margin: 1vh 2.5vw; /* example */
+    margin: 1vh 2.5vw;
     
-    /* Flexbox settings */
     display: flex;  
-    justify-content: center; /* or space-between, space-evenly, center */
+    justify-content: center; 
     align-items: center;
     
-    background-color: #2d7024; /* Example background */
+    background-color: #2d7024;
     padding: 10px;
     
     
-    box-shadow: 0 -2px 5px rgba(0,0,0,0.1); /* Optional: slight shadow at the top */
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
     border: 3px solid #000;
     border-radius: 25px
 }
 
-/* Shared button styles (applies to all four buttons) */
 .home-button,
 .about-button,
 .trips-button,
 .profile-button {
-    /* Make them behave as inline elements within the flex container */
     display: inline-block;
     
     margin: 0 12px;
     padding: 10px 15px;
     
-    text-decoration: none; /* Remove underline if these are links */
-    color: #333;           /* Text color */
-    background-color: #4568ca;   /* Button background color */
-    border: 1px solid #000000;      /* Light border */
-    border-radius: 25px;          /* Rounded corners */
+    text-decoration: none;
+    color: #333;
+    background-color: #4568ca;
+    border: 1px solid #000000;
+    border-radius: 25px;
     
-    transition: background-color 0.3s ease; /* Smooth hover transition */
+    transition: background-color 0.3s ease;
 }
 
-/* Hover effect (optional) */
 .home-button:hover,
 .about-button:hover,
 .trips-button:hover,
 .profile-button:hover {
-    background-color: #dcdcdc; /* Darken on hover */
+    background-color: #dcdcdc;
     cursor: pointer;
 }
 
-/* Active/focus state (optional) */
 .home-button:active,
 .about-button:active,
 .trips-button:active,
