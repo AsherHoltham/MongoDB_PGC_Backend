@@ -8,6 +8,8 @@ export const InfoGithubLink = () => {
     <div className="info-github">
         <Link
         href="https://github.com/AsherHoltham/Trip-out-TheChat-web-app-codebase/tree/main"
+        target="_blank"
+        rel="noopener noreferrer"
         >
             <button>
                 <Image

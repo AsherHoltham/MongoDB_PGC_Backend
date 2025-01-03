@@ -1,5 +1,6 @@
 "use client"
 
+import  '../../styles/auth-pages.css';
 import React from "react";
 
 interface VerifyUserFormProps{
@@ -28,17 +29,17 @@ export function VerifyUserForm( { token, setTokenAction, onSubmitAction }: Verif
 
     return (
         <div>
-            <form onSubmit={ handleSubmit } method="GET">
+            <form className="form-general" onSubmit={ handleSubmit } method="GET">
                 <div>
-                    <label>Input your Code:</label>
+                    <label className="form-general" >Enter your Verification Code:</label>
                     <br />
-                    <input type="text" id="token" name="token" 
+                    <input className="form-general" type="text" id="token" name="token" 
                     value= { token } onChange= { (e) => setTokenAction(e.target.value) } 
                     required  placeholder="Input Verification Code" ></input>
                 </div>
-                <button className="bg-blue-500 text-white py-2 px-4 rounded-md" 
+                <button className="form-general" 
                 type="submit" style={{ marginTop: "2rem" }}>
-                Submit</button>
+                Verify</button>
             </form>
         </div>
     );

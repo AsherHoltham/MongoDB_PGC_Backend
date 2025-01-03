@@ -1,16 +1,15 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import '../../styles/home.css'; // Import your stylesheet
+import '../../styles/home-page.css'; // Import your stylesheet
 
 export default function Home() {
   const pathname = usePathname();
 
   return ( 
-    <div className="text-center">
+    <div className="home-container">
       <div>
-        <h1 className= "home-title"
-        >
+        <h1 className="home-title">
           PGC
         </h1>
       </div>
@@ -19,13 +18,13 @@ export default function Home() {
           href="/login" 
           className={pathname === "/login" ? "link link-active" : "link"}
         >
-          Login
+          Sign in
         </Link>
         <Link 
           href="/register" 
           className={pathname === "/register" ? "link link-active" : "link"}
         >
-          Register
+          Sign up
         </Link>
       </div>
     </div>

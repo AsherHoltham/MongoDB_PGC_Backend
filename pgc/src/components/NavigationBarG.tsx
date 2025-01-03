@@ -20,7 +20,7 @@ export const NavigationBarG = () => {
                     width={800}                // Original dimensions
                     height={800}
                     style={{
-                        width: '6vw',         // 1/8 of the viewport width
+                        width: '4vw',         // 1/8 of the viewport width
                         height: 'auto'           // keep aspect ratio
                     }}
                 />
@@ -39,7 +39,7 @@ export const NavigationBarG = () => {
                     width={800}                // Original dimensions
                     height={800}
                     style={{
-                        width: '6vw',         // 1/8 of the viewport width
+                        width: '4vw',         // 1/8 of the viewport width
                         height: 'auto'           // keep aspect ratio
                     }}
                 />
@@ -58,7 +58,7 @@ export const NavigationBarG = () => {
                     width={800}                // Original dimensions
                     height={800}
                     style={{
-                        width: '6vw',         // 1/8 of the viewport width
+                        width: '4vw',         // 1/8 of the viewport width
                         height: 'auto'           // keep aspect ratio
                     }}
                 />
@@ -77,7 +77,7 @@ export const NavigationBarG = () => {
                     width={800}                // Original dimensions
                     height={800}
                     style={{
-                        width: '6vw',         // 1/8 of the viewport width
+                        width: '4vw',         // 1/8 of the viewport width
                         height: 'auto'           // keep aspect ratio
                     }}
                 />

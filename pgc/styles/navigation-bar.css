@@ -9,7 +9,7 @@
     justify-content: center; 
     align-items: center;
     
-    background-color: #2d7024;
+    background-color: #7b9a77;
     padding: 10px;
     
     
@@ -31,7 +31,7 @@
     color: #333;
     background-color: #4568ca;
     border: 1px solid #000000;
-    border-radius: 25px;
+    border-radius: 35px;
     
     transition: background-color 0.3s ease;
 }

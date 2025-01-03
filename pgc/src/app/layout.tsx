@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "../../styles/globals.css";
+import "../../styles/global-layout.css";
 import { NavigationBar } from "../testing/NavigationBar";
 import { NavigationBarG } from "../components/NavigationBarG";
 
@@ -19,7 +19,7 @@ export default function RootLayout({
         <header className="z-50 bg-white shadow">
           <NavigationBar />
         </header>
-        <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+        <main>
           {children}
         </main>
         <footer className="z-50 bg-white shadow">

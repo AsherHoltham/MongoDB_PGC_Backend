@@ -49,7 +49,7 @@ export default function RegisterPage() {
     <div>
         <main>
             <div style={{ textAlign: "center", marginBottom: "2rem" }}>
-                <h1>Sign Up Page</h1>
+                <h1>Sign up</h1>
             </div>
             <div style={{ textAlign: "center", marginBottom: "2rem" }}>
                 <RegisterForm       

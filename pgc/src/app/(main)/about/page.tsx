@@ -2,7 +2,7 @@ import { InfoGithubLink } from '../../../components/InfoGithubLink'
 
 export default function AboutPage(){
     return(
-        <div>
+        <div className="info-container">
             <InfoGithubLink/>
         </div>
     );
