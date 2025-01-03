@@ -10,7 +10,7 @@ export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
-    //const router = useRouter();
+    const router = useRouter();
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     console.log("Generating JWT Token for user"); // Send a POST to JWT allocator API endpoint
 
@@ -52,6 +52,9 @@ export default function Login() {
             console.log("User: ", user);
 
             ///TODO: CREATE JWT TOKEN
+            //route user to init profile page
+            console.log('Sending user to profile page');
+            router.push(`/user-profile?input=${encodeURIComponent(_uname)}`);
 
           } catch (error) {
             console.error('Unexpected error:', error);
