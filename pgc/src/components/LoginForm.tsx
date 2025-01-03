@@ -35,15 +35,24 @@ export function LoginForm (
     
     return (
         <div>
-            <form>
-                <label>Enter your Username:</label>
-                <br />
-                <input type="text" id="username" name="username" required  placeholder="Enter username" ></input>
-            </form>
-            <form>
-                <label>Enter your Password:</label>
-                <br />
-                <input type="text" id="password" name="password" required  placeholder="Enter password" ></input>
+            <form className="form-general" onSubmit={ handleSubmit } method="GET">
+                <div>
+                    <label className="form-general">Enter your Username:</label>
+                    <br />
+                    <input className="form-general" type="text" id="uname" name="uname" 
+                    value= { username } onChange= { (e) => setUsernameAction(e.target.value) } 
+                    required  placeholder="Create a Username" ></input>
+                </div>
+                <div>
+                    <label className="form-general" >Enter your Password:</label>
+                    <br />
+                    <input className="form-general" type="text" id="password" name="password" 
+                    value= { password } onChange= { (e) => setPasswordAction(e.target.value) } 
+                    required  placeholder="Create Password" ></input>
+                </div>
+                <button className="form-general" 
+                type="submit" style={{ marginTop: "2rem" }}>
+                sign in</button>
             </form>
         </div>
     );

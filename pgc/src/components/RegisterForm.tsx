@@ -17,8 +17,6 @@ export function RegisterForm (
     { uname, setUnameAction, email, setEmailAction,
     password, setPasswordAction, onSubmitAction }: RegisterFormProps ) 
     {
-    console.log("Register Form Component")
-
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -39,6 +37,7 @@ export function RegisterForm (
             return;
         }
 
+        //TODO: MAKE THESE MESSAGES
         alert("Check your email to verify your account!");
 
         alert("All good!");
