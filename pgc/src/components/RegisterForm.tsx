@@ -1,7 +1,7 @@
 "use client"
 
 import  '../../styles/auth-pages.css';
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 interface RegisterFormProps {
     uname: string;
@@ -13,37 +13,31 @@ interface RegisterFormProps {
     onSubmitAction: (event: React.FormEvent<HTMLFormElement>) => void;
 }
 
-export function RegisterForm (
-    { uname, setUnameAction, email, setEmailAction,
-    password, setPasswordAction, onSubmitAction }: RegisterFormProps ) 
-    {
+export function RegisterForm ( { uname, setUnameAction, email, setEmailAction, password, setPasswordAction, onSubmitAction }: RegisterFormProps ) 
+{
+    let messages: string[] = [];
+    const [errMsg, setErrMsg] = useState(null);
+
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        messages = [];
 
-        //TODO: push to backend // MAKE THEM MESSAGES
+        if(!uname.trim()) messages.push("Username is required");
+        if(!email.trim()) messages.push("Email is required");
+        if(!password.trim()) messages.push("Password is required");
+        if(password.length < 10 || password.length > 25) messages.push("Password must be between 10 and 25 characters");
 
-        if(!uname.trim()){
-            alert("Username is required")
-            return;
-        }
-        if(!email.trim()){
-            alert("Email is required")
-            return;
-        }
-        if(!password.trim()){
-            alert("Password is required")
-            return;
-        }
-        if(password.length < 10 || password.length > 25){
-            alert("Password must be between 10 and 25 characters")
-            return;
-        }
-        alert("Check your email to verify your account!");
-
-        alert("All good!");
-
+        const emailQuery = `field=${encodeURIComponent("_email")}&value=${encodeURIComponent(email)}&type=${encodeURIComponent('User')}`;
+        useEffect(() => {
+            fetch('/api/db/dbserver-GET-obj?')
+              .then(response => response.json())
+              .then(data => setErrMsg(data))
+              .catch(error => console.error(error));
+          }, []);
+        if(errMsg) messages.push("Email Registered already");
+        
+        if(messages.length === 0) return;
         console.log("child sees:", uname, email, password);
-
         onSubmitAction(e);
     }
 

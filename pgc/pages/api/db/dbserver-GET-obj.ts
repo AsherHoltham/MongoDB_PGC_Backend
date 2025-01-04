@@ -1,13 +1,10 @@
-// Generate new ObjectID
-// Identify Document type
-
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { WithId } from 'mongodb';
 import DataBase from '../../../lib/db';
 import { Document } from '../../../lib/documents/document';
 
 type Data = {
-    message?: WithId<Document> | string;
+    message?: WithId<Document> | string | null;
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) 
@@ -15,15 +12,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     console.log("dbserver-GET-obj");
     if (req.method === 'GET') {
         try {
-            // Extract 'field', 'value', and 'type' from the query parameters
-            const { field, value, type } = req.query;
+            const { field, value, type } = req.query; // Extract 'field', 'value', and 'type' from the query parameters
             console.log(field, value, type);
             if (!field || !value || !type) {
                 return res.status(400).json({ message: 'Missing query parameter(s)' });
             }
+
             const decodedfield = decodeURIComponent(field as string);
             const decodedvalue = decodeURIComponent(value as string);
             const decodedtype = decodeURIComponent(type as string);
+            console.log("GET query decoded and parsed");
+            console.log(decodedfield, decodedvalue, decodedtype);
 
             let indexes: string[] = [];
             switch(decodedtype){
@@ -33,16 +32,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                     indexes = ['_code'];
             }
 
-            // Initialize database instance and request Document
-            const dbInstance = DataBase.getInstance("PGC");
+            const dbInstance = DataBase.getInstance("PGC"); // Initialize database instance and request Document
             await dbInstance.initDb<Document>(indexes, decodedtype);
             const document = await dbInstance.requestDocument<Document>(decodedtype, decodedfield, decodedvalue);
             if (!document) {
-                return res.status(404).json({ message: `GET ${decodedfield}: ${decodedvalue} from Collection: ${decodedtype}` });
+                console.log(`GET ${decodedfield}: ${decodedvalue} from Collection: ${decodedtype} IS NOT IN DB!`);
+            } else {
+                console.log(`GET ${decodedfield}: ${decodedvalue} from Collection: ${decodedtype} SUCCESS!`);
             }
-
-
-            console.log(`GET ${decodedfield}: ${decodedvalue} from Collection: ${decodedtype} SUCCESS!`);
 
             const result = JSON.stringify(document);
             console.log(`${result}: from query`);

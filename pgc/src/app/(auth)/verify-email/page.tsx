@@ -22,7 +22,7 @@ export default function VerificationPage() {
             // Send a GET to query-database API endpoint
             const qParam = `field=${encodeURIComponent("_email")}&value=${encodeURIComponent(email)}&type=${encodeURIComponent("User")}`;
 
-            const response = await fetch(`/api/server-auth-getCode?${qParam}`, { method: 'GET', headers: { 'Content-Type': 'application/json', } })
+            const response = await fetch(`/api/db/dbserver-GET-obj?${qParam}`, { method: 'GET', headers: { 'Content-Type': 'application/json', } })
 
             const data = await response.json(); // Parse JSON response
             if (response.ok) {
@@ -33,13 +33,13 @@ export default function VerificationPage() {
             }
             console.log(data, ": from query");
 
-            const verificationCode: string = data['message'];
+            const verificationCode: string = data['message']._verificationCode;
 
             console.log("User input: ", token);
             console.log("_verificationCode: ", verificationCode);
 
             if(token !== verificationCode){
-                alert("Incorrect authentication code, try again");
+                console.log("Incorrect authentication code, try again");
                 return;
             }
             console.log("CORRECT!!!");
