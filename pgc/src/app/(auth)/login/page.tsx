@@ -52,6 +52,8 @@ export default function Login() {
             console.log("User: ", user);
 
             ///TODO: CREATE JWT TOKEN
+
+            
             //route user to init profile page
             console.log('Sending user to profile page');
             router.push(`/user-profile?input=${encodeURIComponent(_uname)}`);
