@@ -71,13 +71,13 @@ export default function RegisterPage() {
                 onSubmitAction={handleSubmit}
                 />
             </div>
-            <div>
-              <h1>Message List</h1>
-                <ul>
-                  {fmessages.map((message, index) => (
-                    <li key={index}>{message}</li>
-                  ))}
-                </ul>
+            <div  className= "text-center">
+              <h1>Error List:</h1>
+              <ul>
+                {fmessages.map((message, index) => (
+                  <li key={index}>{message}</li>
+                ))}
+              </ul>
             </div>
             <div style={{ textAlign: "center" }}>
                 <Link

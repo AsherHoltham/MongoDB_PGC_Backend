@@ -17,7 +17,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             if (!field || !value || !type) {
                 return res.status(400).json({ message: 'Missing query parameter(s)' });
             }
-
             const decodedfield = decodeURIComponent(field as string);
             const decodedvalue = decodeURIComponent(value as string);
             const decodedtype = decodeURIComponent(type as string);
@@ -31,7 +30,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                 case 'Trip':
                     indexes = ['_code'];
             }
-
             const dbInstance = DataBase.getInstance("PGC"); // Initialize database instance and request Document
             await dbInstance.initDb<Document>(indexes, decodedtype);
             const document = await dbInstance.requestDocument<Document>(decodedtype, decodedfield, decodedvalue);
@@ -40,12 +38,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             } else {
                 console.log(`GET ${decodedfield}: ${decodedvalue} from Collection: ${decodedtype} SUCCESS!`);
             }
-
             const result = JSON.stringify(document);
             console.log(`${result}: from query`);
 
             return res.status(200).json({message: document});
-
         } catch (error: any) {
             console.error('GET Query Error:', error);
             return res.status(500).json({ message: 'Internal Server Error.' });
