@@ -9,38 +9,48 @@ export default function RegisterPage() {
     const [uname, setUname] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
-    const [message, setMessage] = useState('');
+    const [fmessages, setMessages] = useState<string[]>([]);
     const router = useRouter();
+    let messages: string[] = [];
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        messages = [];
+        for (const msg of fmessages) messages.push(msg);
+        
+        const emailQuery = `field=${encodeURIComponent("_email")}&value=${encodeURIComponent(email)}&type=${encodeURIComponent('User')}`;
+        const emailRes = await fetch(`/api/db/dbserver-GET-obj?${emailQuery}`);
+        const emailData = await emailRes.json();
+        if(emailData['message']) messages.push("Email Registered already");
+
+        const unameQuery = `field=${encodeURIComponent("_uname")}&value=${encodeURIComponent(uname)}&type=${encodeURIComponent('User')}`;
+        const unameRes = await fetch(`/api/db/dbserver-GET-obj?${unameQuery}`);
+        const unameData = await unameRes.json();
+        if(unameData['message']) messages.push("Username is taken");
+
+        console.log("back end", messages);
+
+        if(messages.length !== 0) return;
+
         const newUser = new User(uname, password, email);
         const userJson = JSON.stringify(newUser.toDB());
 
         console.log("New user ready to be saved:", userJson);
 
         try {
-            // Send a POST request to the API endpoint
-            const response = await fetch('/api/server-auth-register', { method: 'POST', headers: {
-                'Content-Type': 'application/json', },
-              body: userJson, // Convert the user object to JSON
-            });
-      
-            const data = await response.json(); // Parse the JSON response
+            const response = await fetch('/api/server-auth-register', { method: 'POST', headers: {'Content-Type': 'application/json', }, body: userJson, });
+            const data = await response.json();
             console.log(data);
 
             if (response.ok) {
-              setMessage(data.message); // Success message from API
               console.log('User registered successfully');
               router.push(`/verify-email?input=${encodeURIComponent(email)}`);
             } else {
-              setMessage(data.message); // Error message from API
               console.error('Error:', data.message);
             }
-          } catch (error) {
-            console.error('Unexpected error:', error);
-            setMessage('An unexpected error occurred. Please try again.');
-          }
+        } catch (error) {
+          console.error('Unexpected error:', error);
+        }
     }
 
     return (
@@ -57,8 +67,18 @@ export default function RegisterPage() {
                 setEmailAction={setEmail}
                 password={password}
                 setPasswordAction={setPassword}
+                fmessages={fmessages}
+                setMessagesAction={setMessages}
                 onSubmitAction={handleSubmit}
                 />
+            </div>
+            <div>
+              <h1>Message List</h1>
+                <ul>
+                  {messages.map((message, index) => (
+                    <li key={index}>{message}</li>
+                  ))}
+                </ul>
             </div>
             <div style={{ textAlign: "center" }}>
                 <Link

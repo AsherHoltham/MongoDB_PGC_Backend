@@ -1,7 +1,7 @@
 "use client"
 
 import  '../../styles/auth-pages.css';
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 interface RegisterFormProps {
     uname: string;
@@ -10,14 +10,14 @@ interface RegisterFormProps {
     setEmailAction: React.Dispatch<React.SetStateAction<string>>;
     password: string;
     setPasswordAction: React.Dispatch<React.SetStateAction<string>>;
+    fmessages: string[];
+    setMessagesAction: React.Dispatch<React.SetStateAction<string[]>>;
     onSubmitAction: (event: React.FormEvent<HTMLFormElement>) => void;
 }
 
-export function RegisterForm ( { uname, setUnameAction, email, setEmailAction, password, setPasswordAction, onSubmitAction }: RegisterFormProps ) 
+export function RegisterForm ( { uname, setUnameAction, email, setEmailAction, password, setPasswordAction, fmessages, setMessagesAction, onSubmitAction }: RegisterFormProps ) 
 {
     let messages: string[] = [];
-    const [errMsg, setErrMsg] = useState(null);
-
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         messages = [];
@@ -27,16 +27,13 @@ export function RegisterForm ( { uname, setUnameAction, email, setEmailAction, p
         if(!password.trim()) messages.push("Password is required");
         if(password.length < 10 || password.length > 25) messages.push("Password must be between 10 and 25 characters");
 
-        const emailQuery = `field=${encodeURIComponent("_email")}&value=${encodeURIComponent(email)}&type=${encodeURIComponent('User')}`;
-        useEffect(() => {
-            fetch('/api/db/dbserver-GET-obj?')
-              .then(response => response.json())
-              .then(data => setErrMsg(data))
-              .catch(error => console.error(error));
-          }, []);
-        if(errMsg) messages.push("Email Registered already");
-        
-        if(messages.length === 0) return;
+        console.log("front end", messages);
+        if(messages.length !== 0){
+            setMessagesAction(messages);
+            return;
+
+        }
+
         console.log("child sees:", uname, email, password);
         onSubmitAction(e);
     }
@@ -50,21 +47,21 @@ export function RegisterForm ( { uname, setUnameAction, email, setEmailAction, p
                     <br />
                     <input className="form-general" type="text" id="uname" name="uname" 
                     value= { uname } onChange= { (e) => setUnameAction(e.target.value) } 
-                    required  placeholder="Create a Username" ></input>
+                    placeholder="Create a Username" ></input>
                 </div>
                 <div>
                     <label className="form-general">Enter Your Email:</label>
                     <br />
                     <input className="form-general" type="email" id="email" name="email" 
                     value= { email } onChange= { (e) => setEmailAction(e.target.value) } 
-                    required  placeholder="Enter Email" autoComplete="email"></input>
+                    placeholder="Enter Email" autoComplete="email"></input>
                 </div>
                 <div>
                     <label className="form-general" >Create Password:</label>
                     <br />
                     <input className="form-general" type="text" id="password" name="password" 
                     value= { password } onChange= { (e) => setPasswordAction(e.target.value) } 
-                    required  placeholder="Create Password" ></input>
+                    placeholder="Create Password" ></input>
                 </div>
                 <button className="form-general" 
                 type="submit" style={{ marginTop: "2rem" }}>
