@@ -11,26 +11,25 @@ export default function RegisterPage() {
     const [email, setEmail] = useState("");
     const [fmessages, setMessages] = useState<string[]>([]);
     const router = useRouter();
-    let messages: string[] = [];
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        messages = [];
-        for (const msg of fmessages) messages.push(msg);
+        let newMsgs = fmessages;
         
         const emailQuery = `field=${encodeURIComponent("_email")}&value=${encodeURIComponent(email)}&type=${encodeURIComponent('User')}`;
         const emailRes = await fetch(`/api/db/dbserver-GET-obj?${emailQuery}`);
         const emailData = await emailRes.json();
-        if(emailData['message']) messages.push("Email Registered already");
+        if(emailData['message']) newMsgs.push("Email Registered already");
 
         const unameQuery = `field=${encodeURIComponent("_uname")}&value=${encodeURIComponent(uname)}&type=${encodeURIComponent('User')}`;
         const unameRes = await fetch(`/api/db/dbserver-GET-obj?${unameQuery}`);
         const unameData = await unameRes.json();
-        if(unameData['message']) messages.push("Username is taken");
+        if(unameData['message']) newMsgs.push("Username is taken");
 
-        console.log("back end", messages);
+        console.log("back end", newMsgs);
+        setMessages(newMsgs);
 
-        if(messages.length !== 0) return;
+        if(newMsgs.length !== 0) return;
 
         const newUser = new User(uname, password, email);
         const userJson = JSON.stringify(newUser.toDB());
@@ -75,7 +74,7 @@ export default function RegisterPage() {
             <div>
               <h1>Message List</h1>
                 <ul>
-                  {messages.map((message, index) => (
+                  {fmessages.map((message, index) => (
                     <li key={index}>{message}</li>
                   ))}
                 </ul>
