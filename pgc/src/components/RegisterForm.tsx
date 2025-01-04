@@ -20,6 +20,8 @@ export function RegisterForm (
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        //TODO: push to backend // MAKE THEM MESSAGES
+
         if(!uname.trim()){
             alert("Username is required")
             return;
@@ -36,8 +38,6 @@ export function RegisterForm (
             alert("Password must be between 10 and 25 characters")
             return;
         }
-
-        //TODO: MAKE THESE MESSAGES
         alert("Check your email to verify your account!");
 
         alert("All good!");

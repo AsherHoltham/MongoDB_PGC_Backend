@@ -1,35 +1,22 @@
 import { Db, MongoClient, Collection, Document, Filter, InsertOneResult, DeleteResult, WithId } from 'mongodb';
-import clientPromise from '../api-inits/mongodb'; // Ensure this exports a connected MongoClient
+import clientPromise from './api-inits/mongodb'; // Ensure this exports a connected MongoClient
 
 export class DataBase {
   private static instance: DataBase;
   private client: MongoClient | null = null;
   private db: Db | null = null;
 
-  /**
-   * Private constructor to prevent direct instantiation.
-   * @param dbName - The name of the MongoDB database to connect to.
-   */
   private constructor(private dbName: string) {}
 
-  /**
-   * getInstance - Static method to get the single instance of the DataBase class.
-   * @param dbName - The name of the MongoDB database to connect to.
-   * @returns A single instance of the DataBase class.
-   */
-  public static getInstance(dbName: string): DataBase 
-  {
-    if (!DataBase.instance) {
-      DataBase.instance = new DataBase(dbName);
-    }
+  public static getInstance(dbName: string): DataBase {
+    if (!DataBase.instance) DataBase.instance = new DataBase(dbName);
     return DataBase.instance;
   }
 
-  /**
-     * initDb - Initialize the database connection and create unique indexes.
-     * @param indexes - An array of field names to create unique indexes on.
-     * @param collectionName - The name of the collection to apply the indexes to.
-     */
+/**
+ * ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+ * INIT Functions - Constructs a MongoDB connection.
+ *////////////////////////////////////////////////////////////////////////////////////////////////////////////
   public async initDb<T extends Document>( indexes: string[], collectionName: string ): Promise<Db | null> 
   {
     console.log("initDB");
@@ -54,10 +41,6 @@ export class DataBase {
     return this.db;
   }
 
-  /**
-   * connectDb - Initialize the database connection.
-   * @returns A promise that resolves when the connection is established.
-   */
   private async connectDb(): Promise<void> 
   {
     if (this.client && this.db) {
@@ -74,32 +57,6 @@ export class DataBase {
     }
   }
 
-  /**
-   * disconnectDb - Close the database connection.
-   * @returns A promise that resolves when the connection is closed.
-   */
-  private async disconnectDb(): Promise<void> 
-  {
-    if (!this.client) {
-      console.log('No active MongoDB connection to close.');
-      return;
-    }
-    try {
-      await this.client.close();
-      console.log(`Disconnected from ${this.dbName}`);
-      this.client = null;
-      this.db = null;
-    } catch (error) {
-      console.error(`Failed to disconnect from database: ${this.dbName}`, error);
-      throw error; // Re-throw the error after logging
-    }
-  }
-
-  /**
-   * initCollection - Initialize the database connection and create unique indexes.
-   * @param indexes - An array of field names to create unique indexes on.
-   * @param collectionName - The name of the collection to apply the indexes to.
-   */
   public async initCollection<T extends Document>(indexes: string[], collectionName: string): Promise<Db | null> 
   {
     if(!this.db){
@@ -116,11 +73,6 @@ export class DataBase {
     return this.db;
   }
 
-  /**
-   * createUniqueIndex - Creates a unique index on the specified field.
-   * @param fieldName - The field on which to create the unique index.
-   * @param collectionName - The name of the collection to apply the index to.
-   */
   private async createUniqueIndex<T extends Document>(fieldName: string, collectionName: string): Promise<void> 
   {
     try {
@@ -138,11 +90,6 @@ export class DataBase {
     }
   }
 
-  /**
-   * getCollection - Retrieves the specified collection with type safety.
-   * @param collectionName - The name of the collection to retrieve.
-   * @returns The MongoDB Collection instance.
-   */
   private getCollection<T extends Document>(collectionName: string): Collection<T> 
   {
     if (!this.db) {
@@ -150,13 +97,13 @@ export class DataBase {
     }
     return this.db.collection<T>(collectionName);
   }
+/**
+ * ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+ * INIT Functions - Constructs a MongoDB connection.
+ *////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  /**
-   * buildQuery - Constructs a MongoDB filter based on the field, value, and options.
-   * @param field - The field name to check.
-   * @param value - The value to search for in the specified field.
-   * @returns A MongoDB filter object.
-   */
+
+
   private buildQuery(field: string, value: any): Filter<any> 
   {
     return { [field]: value };

@@ -61,10 +61,6 @@ export class User {
         };
       }
 
-    public retIndexes(): string[] {
-        return ["_uname", "_email"];
-    }
-
     private generateVerificationCode(length: number = 6): string {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         let code = '';
@@ -72,6 +68,10 @@ export class User {
           code += characters.charAt(Math.floor(Math.random() * characters.length));
         }
         return code;
+    }
+
+    public retIndexes(): string[] {
+        return ['_uname', '_email'];
     }
 
     static fromJSON(userJSON: any): User {
@@ -83,5 +83,9 @@ export class User {
           userJSON.verified || false,
           userJSON.verificationCode || ''
         );
+    }
+
+    public describe() {
+        console.log("User: ", this._uname);
     }
 };

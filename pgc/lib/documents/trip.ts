@@ -32,7 +32,7 @@ export class Trip {
     public toDB(): Record<string, any> {
         return {
           "_title": this._title,
-          "_shareCode": this._shareCode,
+          "_code": this._shareCode,
           "_location": this._location,
           "_hostUser": this._hostUser,
           "_users": this._users,
@@ -40,7 +40,7 @@ export class Trip {
       }
 
     public retIndexes(): string[] {
-        return ["_shareCode"];
+        return ['_code'];
     }
 
     static fromJSON(userJSON: any): Trip {
@@ -51,5 +51,9 @@ export class Trip {
           userJSON._hostUser,
           userJSON._users || [],
         );
+    }
+
+    public describe() {
+        console.log("Trip: ", this._title);
     }
 };

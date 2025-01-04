@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import sgMail from '../../lib/api-inits/sendGrid';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== 'POST') {
@@ -7,19 +8,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
     console.log(req.body);
 
+    const to = req.body;
 
-    /**
-    const { to, subject, text, html } = req.body;
-
+    //GET code from db
+    
     const msg = {
-      to, // Recipient's email address
-      from: {
-        email: 'no-reply@yourdomain.com', // Your authenticated sender email
-        name: 'Your App Name',            // Your sender name
-      },
-      subject,
-      text,
-      html,
+      to,
+      from: 'no-reply@pgcoutthechat.com',
+      subject: 'PGC email verification code',
+      text: "code",
+      html: '<strong>This is an HTML body</strong>',
     };
   
     try {
@@ -29,5 +27,4 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       console.error(error.response.body);
       res.status(500).json({ error: 'Failed to send email' });
     }
-    */
 }

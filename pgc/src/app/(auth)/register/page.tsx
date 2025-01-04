@@ -3,7 +3,7 @@ import { RegisterForm } from "../../../components/RegisterForm";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useRouter } from 'next/navigation';
-import { User } from "../../../../lib/objects/user";
+import { User } from "../../../../lib/documents/user";
 
 export default function RegisterPage() {
     const [uname, setUname] = useState("");
@@ -28,11 +28,9 @@ export default function RegisterPage() {
       
             const data = await response.json(); // Parse the JSON response
             console.log(data);
-            
+
             if (response.ok) {
               setMessage(data.message); // Success message from API
-              // Optionally, redirect the user to another page (e.g., login page)
-              //////////////////* SEND EMAIL TO USER */////////////////////////
               console.log('User registered successfully');
               router.push(`/verify-email?input=${encodeURIComponent(email)}`);
             } else {
