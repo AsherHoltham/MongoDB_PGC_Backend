@@ -1,4 +1,4 @@
-import { Db, MongoClient, Collection, Document, Filter, InsertOneResult, DeleteResult, WithId } from 'mongodb';
+import { Db, MongoClient, Collection, Document, Filter, InsertOneResult, DeleteResult, WithId, UpdateResult, MatchKeysAndValues } from 'mongodb';
 import clientPromise from './api-inits/mongodb'; // Ensure this exports a connected MongoClient
 
 export class DataBase {
@@ -230,5 +230,25 @@ export class DataBase {
       throw error; // Re-throw the error to notify the caller
     }
   }
+
+  public async updateDocument<T extends Document>( collectionName: string, field: string, value: any, upfield: string, upvalue: any ): Promise<UpdateResult>
+  {
+    // Ensure the database is connected
+    if (!this.db) {
+      await this.connectDb();
+    }
+
+    try {
+      const collection = this.getCollection<T>(collectionName);
+      const result: UpdateResult = await collection.updateOne(this.buildQuery(field, value), { $set: { [upfield]: upvalue } as Partial<T> });
+      
+      console.log(`Successfully Updated ${value} from "${collectionName}".`);
+      return result;
+    } catch (error) {
+      console.error(`Error updating document from "${collectionName}":`, error);
+      throw error; // Re-throw the error to notify the caller
+    }
+  }
 };
+
 export default DataBase;

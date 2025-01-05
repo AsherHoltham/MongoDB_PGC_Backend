@@ -3,38 +3,28 @@ import { WithId } from 'mongodb';
 import DataBase from '../../../lib/db';
 import { Document } from '../../../lib/documents/document';
 
-type Data = {
-    message?: WithId<Document> | string | null;
-};
-
-export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) 
+export default async function handler(req: NextApiRequest, res: NextApiResponse) 
 {
     console.log("dbserver-PUT-obj");
     if (req.method === 'PUT') {
         try {
-            const { field, value, type } = req.query; // Extract 'field', 'value', and 'type' from the query parameters
-            console.log(field, value, type);
-            if (!field || !value || !type) {
+            const { field, value, type, updateField, updateValue } = req.body; // Extract 'field', 'value', and 'type' from the query parameters
+            console.log(field, value, type, updateField, updateValue);
+            if (!field || !value || !type || !updateField || !updateValue) {
                 return res.status(400).json({ message: 'Missing query parameter(s)' });
             }
-            const decodedfield = decodeURIComponent(field as string);
-            const decodedvalue = decodeURIComponent(value as string);
-            const decodedtype = decodeURIComponent(type as string);
-            console.log("GET query decoded and parsed");
-            console.log(decodedfield, decodedvalue, decodedtype);
-
+            console.log("PUT query decoded and parsed");
             let indexes: string[] = [];
-            switch(decodedtype){
+            switch(type){
                 case 'User':
                     indexes = ['_uname', '_email'];
                 case 'Trip':
                     indexes = ['_code'];
             }
             const dbInstance = DataBase.getInstance("PGC"); // Initialize database instance and request Document
-            await dbInstance.initDb<Document>(indexes, decodedtype);
-    
-            //TODO
-
+            await dbInstance.initDb<Document>(indexes, type);
+            await dbInstance.updateDocument<Document>(type, field, value, updateField, updateValue)
+            return res.status(200).json({ message: 'Data updated successfully' });
 
         } catch (error: any) {
             console.error('PUT Query Error:', error);

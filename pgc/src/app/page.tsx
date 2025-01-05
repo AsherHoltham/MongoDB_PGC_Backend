@@ -1,32 +1,28 @@
 "use client";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import '../../styles/home-page.css'; // Import your stylesheet
 
-export default function Home() {
-  const pathname = usePathname();
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, ReactNode } from 'react';
 
-  return ( 
-    <div className="home-container">
-      <div>
-        <h1 className="home-title">
-          PGC
-        </h1>
-      </div>
-      <div className="link-container">
-        <Link 
-          href="/login" 
-          className={pathname === "/login" ? "link link-active" : "link"}
-        >
-          Sign in
-        </Link>
-        <Link 
-          href="/register" 
-          className={pathname === "/register" ? "link link-active" : "link"}
-        >
-          Sign up
-        </Link>
-      </div>
-    </div>
+interface RootProps {
+  children: ReactNode;
+}
+
+const Root = ({ children }: RootProps) => {
+  const searchParams = useSearchParams();
+  const user = searchParams?.get('User') || '';
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user === '') {
+      router.push('/home');
+    }
+  }, [user, router]);
+
+  return (
+    <>
+      {children}
+    </>
   );
 }
+
+export default Root;
