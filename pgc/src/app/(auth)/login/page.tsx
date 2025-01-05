@@ -1,6 +1,6 @@
 'use client';
 
-import { LoginForm } from "../../../components/(auth)/LoginForm";
+import { LoginForm } from "../../../components/LoginForm";
 import { User } from '../../../../lib/documents/user';
 import Link from "next/link";
 import React, { useState } from "react";

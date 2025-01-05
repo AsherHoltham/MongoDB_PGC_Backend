@@ -1,5 +1,5 @@
 "use client"
-import { VerifyUserForm } from '../../../components/(auth)/VerifyUserForm';
+import { VerifyUserForm } from '../../../components/VerifyUserForm';
 import React, { useState } from "react";
 import { useRouter, useSearchParams } from 'next/navigation';
 
@@ -12,6 +12,7 @@ export default function VerificationPage() {
     const email = searchParams?.get('input') || '';
     const router = useRouter();
 
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         console.log("Attempt to verify:", email);
@@ -20,6 +21,7 @@ export default function VerificationPage() {
         try{
             // Send a GET to query-database API endpoint
             const qParam = `field=${encodeURIComponent("_email")}&value=${encodeURIComponent(email)}&type=${encodeURIComponent("User")}`;
+
             const response = await fetch(`/api/db/dbserver-GET-obj?${qParam}`, { method: 'GET', headers: { 'Content-Type': 'application/json', } })
 
             const data = await response.json(); // Parse JSON response
@@ -29,7 +31,13 @@ export default function VerificationPage() {
             } else {
                 console.error('Error:', message);
             }
+            console.log(data, ": from query");
+
             const verificationCode: string = data['message']._verificationCode;
+
+            console.log("User input: ", token);
+            console.log("_verificationCode: ", verificationCode);
+
             if(token !== verificationCode){
                 console.log("Incorrect authentication code, try again");
                 return;

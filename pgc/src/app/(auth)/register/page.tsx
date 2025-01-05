@@ -1,5 +1,5 @@
 "use client";
-import { RegisterForm } from "../../../components/(auth)/RegisterForm";
+import { RegisterForm } from "../../../components/RegisterForm";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useRouter } from 'next/navigation';

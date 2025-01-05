@@ -9,7 +9,7 @@
     justify-content: center; 
     align-items: center;
     
-    background-color: #a3a3a3;
+    background-color: #7b9a77;
     padding: 10px;
     
     
@@ -48,21 +48,5 @@
 .about-button:active,
 .trips-button:active,
 .profile-button:active {
-    background-color: white;
-}
-
-/* Styles for active page */
-.about-button.active,
-.home-button.active,
-.trips-button.active,
-.profile-button.active {
-    background-color: white; /* Or any other style to indicate active page */
-}
-
-/* Optional: Focus styles for accessibility */
-.about-button:focus,
-.home-button:focus,
-.trips-button:focus,
-.profile-button:focus {
-    outline: 2px solid #000;
+    background-color: #ccc;
 }

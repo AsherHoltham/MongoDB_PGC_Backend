@@ -9,8 +9,11 @@ export const NavigationBarG = () => {
 
   return (
     <div className="nav-bar-case">
-        <Link href="/home">
-        <button className={`home-button ${pathname === "/home" ? "active" : ""}`}>
+        <Link
+        href="/"
+        className={pathname === "/" ? "font-bold text-blue-500" : "text-blue-500"}
+        >
+            <button className="home-button">
                 <Image
                     src="/icon/home.svg"    // Adjust this path if needed
                     alt="My Icon"
@@ -25,8 +28,30 @@ export const NavigationBarG = () => {
             <footer className="text-center text-sm mt-1 font-bold text-black">Home</footer>
         </Link>
 
-        <Link href="/trips">
-            <button className={`trips-button ${pathname === "/trips" ? "active" : ""}`}>
+        <Link
+        href="/about"
+        className={pathname === "/about" ? "font-bold text-blue-500" : "text-blue-500"}
+        >
+            <button className="about-button">
+                <Image
+                    src="/icon/info.svg"    // Adjust this path if needed
+                    alt="My Icon"
+                    width={800}                // Original dimensions
+                    height={800}
+                    style={{
+                        width: '4vw',         // 1/8 of the viewport width
+                        height: 'auto'           // keep aspect ratio
+                    }}
+                />
+            </button>
+            <footer className="text-center text-sm mt-1 font-bold text-black">Info</footer>
+        </Link>
+
+        <Link
+        href="/trips"
+        className={pathname === "/trips" ? "font-bold text-blue-500" : "text-blue-500"}
+        >
+            <button className="trips-button">
                 <Image
                     src="/icon/trips.svg"    // Adjust this path if needed
                     alt="My Icon"
@@ -41,8 +66,11 @@ export const NavigationBarG = () => {
             <footer className="text-center text-sm mt-1 font-bold text-black">Trips</footer>
         </Link>
 
-        <Link href="/user-profile">
-            <button className={`profile-button ${pathname === "/user-profile" ? "active" : ""}`}>
+        <Link
+        href="/user-profile"
+        className={pathname === "/user-profile" ? "font-bold text-blue-500" : "text-blue-500"}
+        >
+            <button className="profile-button">
                 <Image
                     src="/icon/user-profile.svg"    // Adjust this path if needed
                     alt="My Icon"
@@ -55,22 +83,6 @@ export const NavigationBarG = () => {
                 />
             </button>
             <footer className="text-center text-sm mt-1 font-bold text-black">Profile</footer>
-        </Link>
-
-        <Link href="/about">
-            <button className={`about-button ${pathname === "/about" ? "active" : ""}`}>
-                <Image
-                    src="/icon/info.svg"    // Adjust this path if needed
-                    alt="My Icon"
-                    width={800}                // Original dimensions
-                    height={800}
-                    style={{
-                        width: '4vw',         // 1/8 of the viewport width
-                        height: 'auto'           // keep aspect ratio
-                    }}
-                />
-            </button>
-            <footer className="text-center text-sm mt-1 font-bold text-black">Info</footer>
         </Link>
     </div>
   );
