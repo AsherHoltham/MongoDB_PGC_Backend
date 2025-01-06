@@ -44,9 +44,17 @@
     cursor: pointer;
 }
 
-.home-button:active,
-.about-button:active,
-.trips-button:active,
-.profile-button:active {
-    background-color: #ccc;
+/* Styles for active page */
+.about-button.active,
+.home-button.active,
+.trips-button.active,
+.profile-button.active {
+    background-color: white; /* Or any other style to indicate active page */
+}
+/* Optional: Focus styles for accessibility */
+.about-button:focus,
+.home-button:focus,
+.trips-button:focus,
+.profile-button:focus {
+    outline: 2px solid #000;
 }

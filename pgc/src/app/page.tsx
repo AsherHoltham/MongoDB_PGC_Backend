@@ -9,19 +9,15 @@ export default function Home() {
   return ( 
     <div className="home-container">
       <div>
-        <h1 className="home-title">
-          PGC
-        </h1>
+        <h1 className="home-title"> PGC </h1>
       </div>
       <div className="link-container">
-        <Link 
-          href="/login" 
-          className={pathname === "/login" ? "link link-active" : "link"}
+        <Link href="/login" 
+        className={pathname === "/login" ? "link link-active" : "link"}
         >
           Sign in
         </Link>
-        <Link 
-          href="/register" 
+        <Link href="/register" 
           className={pathname === "/register" ? "link link-active" : "link"}
         >
           Sign up
