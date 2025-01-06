@@ -20,7 +20,7 @@ export function ClearDataBaseButton(){
 
         try {
             // Send POST request to the API endpoint
-            const response = await fetch('/api/clear-database', {
+            const response = await fetch('/api/test/clear-database', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -3,10 +3,12 @@ import { RegisterForm } from "../../../components/RegisterForm";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useRouter } from 'next/navigation';
-import { User } from "../../../../lib/documents/user";
+import { User } from '../../../types/User';
+import { generateRandomVerificationId } from '../../../lib/utils/generate-code';
+import * as CryptoJS from 'crypto-js';
 
 export default function RegisterPage() {
-    const [uname, setUname] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const [fmessages, setMessages] = useState<string[]>([]);
@@ -16,31 +18,48 @@ export default function RegisterPage() {
         event.preventDefault();
         let newMsgs = fmessages;
         
-        const emailQuery = `field=${encodeURIComponent("_email")}&value=${encodeURIComponent(email)}&type=${encodeURIComponent('User')}`;
-        const emailRes = await fetch(`/api/db/dbserver-GET-obj?${emailQuery}`);
+        const emailQuery = `field=${encodeURIComponent("email")}&value=${encodeURIComponent(email)}&type=${encodeURIComponent('User')}`;
+        const emailRes = await fetch(`/api/db/dbserver-read-obj?${emailQuery}`);
         const emailData = await emailRes.json();
         if(emailData['message']) newMsgs.push("Email Registered already");
 
-        const unameQuery = `field=${encodeURIComponent("_uname")}&value=${encodeURIComponent(uname)}&type=${encodeURIComponent('User')}`;
-        const unameRes = await fetch(`/api/db/dbserver-GET-obj?${unameQuery}`);
+        const unameQuery = `field=${encodeURIComponent("username")}&value=${encodeURIComponent(username)}&type=${encodeURIComponent('User')}`;
+        const unameRes = await fetch(`/api/db/dbserver-read-obj?${unameQuery}`);
         const unameData = await unameRes.json();
         if(unameData['message']) newMsgs.push("Username is taken");
 
         console.log("back end", newMsgs);
         setMessages(newMsgs);
-
         if(newMsgs.length !== 0) return;
 
-        const newUser = new User(uname, password, email);
-        const userJson = JSON.stringify(newUser.toDB());
+        const verificationCode = generateRandomVerificationId();
 
-        console.log("New user ready to be saved:", userJson);
+        const user: User = 
+        {
+          username: username,
+          password: CryptoJS.SHA256(password).toString(),
+          email: email,
+          verification_id: verificationCode,
+          trips: []
+        }
+
+        console.log("New user ready to be saved:", user);
 
         try {
-            const response = await fetch('/api/server-auth-register', { method: 'POST', headers: {'Content-Type': 'application/json', }, body: userJson, });
+            const response = await fetch('/api/db/dbserver-create-obj', 
+              { 
+                method: 'POST', 
+                headers: {'Content-Type': 'application/json', }, 
+                body: JSON.stringify(
+                  { 
+                    type: 'User', 
+                    data: user, 
+                  })
+              }
+            );
+
             const data = await response.json();
             console.log(data);
-
             if (response.ok) {
               console.log('User registered successfully');
               router.push(`/verify-email?input=${encodeURIComponent(email)}`);
@@ -60,13 +79,12 @@ export default function RegisterPage() {
             </div>
             <div style={{ textAlign: "center", marginBottom: "2rem" }}>
                 <RegisterForm       
-                uname={uname}
-                setUnameAction={setUname}
+                username={username}
+                setUsernameAction={setUsername}
                 email={email}
                 setEmailAction={setEmail}
                 password={password}
                 setPasswordAction={setPassword}
-                fmessages={fmessages}
                 setMessagesAction={setMessages}
                 onSubmitAction={handleSubmit}
                 />

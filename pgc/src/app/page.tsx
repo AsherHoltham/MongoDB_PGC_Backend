@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import '../../styles/home-page.css'; // Import your stylesheet
+import '../styles/home-page.css'; // Import your stylesheet
 
 export default function Home() {
   const pathname = usePathname();

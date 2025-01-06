@@ -1,7 +1,7 @@
 'use client';
 
 import { LoginForm } from "../../../components/LoginForm";
-import { User } from '../../../../lib/documents/user';
+import { User } from '../../../types';
 import Link from "next/link";
 import React, { useState } from "react";
 import { useRouter } from 'next/navigation';
@@ -48,8 +48,8 @@ export default function Login() {
             console.log(userData);
 
             const {_uname, _password, _email, _trips, _verified, _verificationCode} = userData;
-            const user = new User(_uname, _password, _email, _trips, _verified, _verificationCode);
-            console.log("User: ", user);
+            //const user = new User(_uname, _password, _email, _trips, _verified, _verificationCode);
+            //console.log("User: ", user);
 
             ///TODO: CREATE JWT TOKEN
 

@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import Image from 'next/image';
-import "../../styles/github-info.css";
+import "../styles/github-info.css";
 
 export const InfoGithubLink = () => {
   return (

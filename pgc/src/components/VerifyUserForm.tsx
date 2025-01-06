@@ -1,6 +1,6 @@
 "use client"
 
-import  '../../styles/auth-pages.css';
+import  '../styles/auth-pages.css';
 import React from "react";
 
 interface VerifyUserFormProps{

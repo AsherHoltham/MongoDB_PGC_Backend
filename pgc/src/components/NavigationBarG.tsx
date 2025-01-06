@@ -2,7 +2,7 @@
 import Link from "next/link";
 import Image from 'next/image';
 import { usePathname } from "next/navigation";
-import "../../styles/navigation-bar.css"; // Make sure your CSS path is correct
+import "../styles/navigation-bar.css"; // Make sure your CSS path is correct
 
 export const NavigationBarG = () => {
   const pathname = usePathname();
