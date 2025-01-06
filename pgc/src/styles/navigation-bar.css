@@ -1,0 +1,60 @@
+.nav-bar-case {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 95%;
+    margin: 1vh 2.5vw;
+    
+    display: flex;  
+    justify-content: center; 
+    align-items: center;
+    
+    background-color: #7b9a77;
+    padding: 10px;
+    
+    
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    border: 3px solid #000;
+    border-radius: 25px
+}
+
+.home-button,
+.about-button,
+.trips-button,
+.profile-button {
+    display: inline-block;
+    
+    margin: 0 12px;
+    padding: 10px 15px;
+    
+    text-decoration: none;
+    color: #333;
+    background-color: #4568ca;
+    border: 1px solid #000000;
+    border-radius: 35px;
+    
+    transition: background-color 0.3s ease;
+}
+
+.home-button:hover,
+.about-button:hover,
+.trips-button:hover,
+.profile-button:hover {
+    background-color: #dcdcdc;
+    cursor: pointer;
+}
+
+/* Styles for active page */
+.about-button.active,
+.home-button.active,
+.trips-button.active,
+.profile-button.active {
+    background-color: white; /* Or any other style to indicate active page */
+}
+/* Optional: Focus styles for accessibility */
+.about-button:focus,
+.home-button:focus,
+.trips-button:focus,
+.profile-button:focus {
+    outline: 2px solid #000;
+}
