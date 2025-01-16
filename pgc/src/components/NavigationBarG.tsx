@@ -22,7 +22,7 @@ export const NavigationBarG = () => {
                     }}
                 />
             </button>
-            <footer className="text-center text-sm mt-1 font-bold text-black">Home</footer>
+            <footer className="text-center text-sm mt-1 font-bold text-white">Home</footer>
         </Link>
 
         <Link href="/about">
@@ -38,7 +38,7 @@ export const NavigationBarG = () => {
                     }}
                 />
             </button>
-            <footer className="text-center text-sm mt-1 font-bold text-black">Info</footer>
+            <footer className="text-center text-sm mt-1 font-bold text-white">Info</footer>
         </Link>
 
         <Link href="/trips">
@@ -54,7 +54,7 @@ export const NavigationBarG = () => {
                     }}
                 />
             </button>
-            <footer className="text-center text-sm mt-1 font-bold text-black">Trips</footer>
+            <footer className="text-center text-sm mt-1 font-bold text-white">Trips</footer>
         </Link>
 
         <Link href="/user-profile">
@@ -70,7 +70,7 @@ export const NavigationBarG = () => {
                     }}
                 />
             </button>
-            <footer className="text-center text-sm mt-1 font-bold text-black">Profile</footer>
+            <footer className="text-center text-sm mt-1 font-bold text-white">Profile</footer>
         </Link>
     </div>
   );
