@@ -1,5 +1,7 @@
 # Codebase for backend testing
 
+MongoDB class file: pgc/src/lib/db/DataBase.ts
+
 Project Group Chat
 
 Asher Holtham, Bryce Tobiano, Hugo Berman &amp; Andrew Aarons - WebApp project codebase
